@@ -44,8 +44,8 @@
                 @if($userLogin && $userLogin->foto)
                     <img src="{{ asset('uploads/user/' . $userLogin->foto) }}"
                          alt="Profile"
-                         class="w-8 h-8 rounded-full object-cover"
-                         style="box-shadow: 0 0 0 2px rgba(225,29,72,0.5);">
+                         class="w-8 h-8 rounded-full object-cover">
+                         <!-- style="box-shadow: 0 0 0 2px rgba(225,29,72,0.5);"> -->
                 @else
                     <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold"
                          style="background: linear-gradient(135deg, #e11d48, #9f1239); box-shadow: 0 0 0 2px rgba(225,29,72,0.4);">
