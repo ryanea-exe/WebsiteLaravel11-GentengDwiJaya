@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>@yield('title', 'Genteng Dwijaya')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Tailwind -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.tailwindcss.min.css">
@@ -14,176 +15,152 @@
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.tailwindcss.min.js"></script>
 
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
+        * { box-sizing: border-box; }
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; }
+
+        /* ---- Scrollbar ---- */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #e11d48; border-radius: 4px; }
+
+        /* ---- Page transition ---- */
+        .page-transition { animation: fadeSlideIn 0.4s ease; }
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* Fade In Halaman */
-        .page-transition {
-            animation: fadeIn 0.45s ease;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* ---- Gradient text ---- */
+        .text-gradient {
+            background: linear-gradient(135deg, #e11d48 0%, #f97316 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        /* ================= DATATABLE ================= */
-        /* TOP SECTION */
+        /* ============ DATATABLE ============ */
         .dataTables_wrapper .dataTables_length,
         .dataTables_wrapper .dataTables_filter {
             margin-bottom: 16px;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 14px;
+            font-size: 13px;
         }
-        /* TOP FLEX */
-        .dataTables_wrapper .dataTables_length {
-            float: left;
-        }
-        .dataTables_wrapper .dataTables_filter {
-            float: right;
-        }
-        /* CLEAR FLOAT */
-        .dataTables_wrapper::after {
-            content: "";
-            display: block;
-            clear: both;
-        }
-        /* SEARCH */
+        .dataTables_wrapper .dataTables_length { float: left; }
+        .dataTables_wrapper .dataTables_filter { float: right; }
+        .dataTables_wrapper::after { content: ""; display: block; clear: both; }
+
+        /* Search input */
         .dataTables_filter input {
-            border: 1px solid #fdba74 !important;
-            border-radius: 12px !important;
-            padding: 9px 14px !important;
-            outline: none !important;
-            background: white !important;
-            min-width: 230px;
-            max-height: 36px !important;
-        }
-        .dataTables_filter input:focus {
-            border-color: #ea580c !important;
-            box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.15);
-        }
-        /* SELECT */
-        .dataTables_length select {
-            border: 1px solid #fdba74 !important;
+            background: rgba(255,255,255,0.06) !important;
+            border: 1px solid rgba(225,29,72,0.3) !important;
             border-radius: 10px !important;
-            padding: 7px 12px !important;
-            background: white !important;
+            padding: 8px 14px !important;
+            outline: none !important;
+            color: #e5e7eb !important;
+            min-width: 220px;
+            max-height: 36px !important;
+            font-size: 13px;
         }
-        /* TABLE */
-        table.dataTable {
-            border-collapse: collapse !important;
-            width: 100% !important;
+        .dataTables_filter input::placeholder { color: rgba(156,163,175,0.5); }
+        .dataTables_filter input:focus {
+            border-color: #e11d48 !important;
+            box-shadow: 0 0 0 3px rgba(225,29,72,0.15) !important;
+            background: rgba(225,29,72,0.05) !important;
         }
-        /* HEADER */
+
+        /* Select */
+        .dataTables_length select {
+            background: rgba(255,255,255,0.06) !important;
+            border: 1px solid rgba(225,29,72,0.3) !important;
+            border-radius: 8px !important;
+            padding: 6px 12px !important;
+            color: #e5e7eb !important;
+        }
+
+        /* Table */
+        table.dataTable { border-collapse: collapse !important; width: 100% !important; }
+
+        /* Header */
         table.dataTable thead th {
-            background: #9a3412 !important;
+            background: linear-gradient(135deg, #9f1239, #be123c) !important;
             color: white !important;
-            padding: 16px 16px !important;
+            padding: 14px 16px !important;
             border-bottom: none !important;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-size: 12px;
+            letter-spacing: 0.07em;
+            font-size: 11px;
             font-weight: 700;
         }
-        /* BODY */
+
+        /* Body */
         table.dataTable tbody td {
-            padding: 8px 16px !important;
+            padding: 10px 16px !important;
             vertical-align: middle !important;
+            color: #d1d5db;
+            border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+            font-size: 13px;
         }
-        table.dataTable tbody tr {
-            border-bottom: 1px solid #ffedd5;
-        }
-        table.dataTable tbody tr:hover {
-            background-color: #fff7ed !important;
-        }
-        /* BOTTOM SECTION */
-        .dataTables_info {
-            color: #78716c !important;
-        }
-        /* FLEX BOTTOM */
+        table.dataTable tbody tr { border-bottom: 1px solid rgba(255,255,255,0.05); background: transparent; }
+        table.dataTable tbody tr:nth-child(even) { background: rgba(255,255,255,0.02) !important; }
+        table.dataTable tbody tr:hover { background: rgba(225,29,72,0.07) !important; }
+
+        /* Bottom */
         .dataTables_wrapper .dataTables_info {
             float: left;
             padding-top: 10px;
+            font-size: 12px;
+            color: #6b7280 !important;
+            margin-top: 16px !important;
         }
         .dataTables_wrapper .dataTables_paginate {
             float: right;
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 14px;
+            gap: 4px;
+            font-size: 13px;
+            margin-top: 16px !important;
         }
-        /* PAGINATION BUTTON */
+
+        /* Pagination buttons */
         .dataTables_wrapper .paginate_button {
-            min-width: 36px !important;
-            height: 36px !important;
+            min-width: 34px !important;
+            height: 34px !important;
             display: inline-flex !important;
             align-items: center;
             justify-content: center;
             border-radius: 8px !important;
-            border: 1px solid #fed7aa !important;
-            background: white !important;
-            color: #9a3412 !important;
+            border: 1px solid rgba(225,29,72,0.25) !important;
+            background: rgba(255,255,255,0.04) !important;
+            color: #9ca3af !important;
             transition: all 0.2s ease;
         }
-        /* ACTIVE PAGE */
         .dataTables_wrapper .paginate_button.current {
-            background: #c2410c !important;
+            background: linear-gradient(135deg, #e11d48, #9f1239) !important;
             color: white !important;
-            border: 1px solid #c2410c !important;
+            border-color: transparent !important;
+            box-shadow: 0 0 12px rgba(225,29,72,0.35);
         }
-        /* HOVER */
         .dataTables_wrapper .paginate_button:hover {
-            background: #ea580c !important;
-            color: white !important;
-            border-color: #ea580c !important;
+            background: rgba(225,29,72,0.15) !important;
+            color: #e11d48 !important;
+            border-color: rgba(225,29,72,0.4) !important;
         }
-        /* DISABLED */
-        .dataTables_wrapper .paginate_button.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        /* Jarak search label */
-        .dataTables_filter label {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        /* Jarak pagination dengan tabel */
-        .dataTables_paginate {
-            margin-top: 16px !important;
-        }
-        /* Kecilkan info data */
-        .dataTables_info {
-            font-size: 14px;
-            color: #78716c !important;
-            margin-top: 16px !important;
-        }
-        /* Text data kosong */
+        .dataTables_wrapper .paginate_button.disabled { opacity: 0.35; cursor: not-allowed; }
+
+        .dataTables_filter label { display: flex; align-items: center; gap: 12px; color: #9ca3af; }
+        .dataTables_length label { color: #9ca3af; }
         .dataTables_empty {
             text-align: center !important;
             font-style: italic;
-            color: #78716c;
-            padding: 16px 0 !important;
-            font-size: 14px;
+            color: #6b7280;
+            padding: 20px 0 !important;
+            font-size: 13px;
         }
-        /* Hilangkan outline biru default */
         .dataTables_filter input:focus,
-        .dataTables_length select:focus {
-            outline: none !important;
-        }
-        /* Responsive search */
-        .dataTables_filter {
-            margin-left: auto;
-        }
-        /* RESPONSIVE */
+        .dataTables_length select:focus { outline: none !important; }
+
         @media (max-width: 768px) {
             .dataTables_wrapper .dataTables_length,
             .dataTables_wrapper .dataTables_filter,
@@ -191,20 +168,14 @@
             .dataTables_wrapper .dataTables_paginate {
                 float: none !important;
                 width: 100%;
-                justify-content: space-between;
             }
-            .dataTables_wrapper .dataTables_filter {
-                margin-top: 10px;
-            }
-            .dataTables_wrapper .dataTables_paginate {
-                margin-top: 16px;
-                flex-wrap: wrap;
-            }
+            .dataTables_wrapper .dataTables_filter { margin-top: 10px; }
+            .dataTables_wrapper .dataTables_paginate { margin-top: 16px; flex-wrap: wrap; }
         }
     </style>
 </head>
 
-<body class="bg-orange-50 text-gray-800 overflow-hidden">
+<body class="bg-[#0a0a0a] text-gray-200 overflow-hidden">
     <!-- HEADER -->
     @include('components.header')
 
@@ -214,14 +185,11 @@
         @include('components.sidebar')
 
         <!-- MAIN CONTENT -->
-        <main class="flex-1 lg:ml-64 h-[calc(100vh-4rem)] overflow-y-auto page-transition">
-            <!-- CONTENT -->
+        <main class="flex-1 lg:ml-64 h-[calc(100vh-4rem)] overflow-y-auto page-transition bg-[#0a0a0a]">
             <div class="p-4 md:p-6 min-h-full flex flex-col">
-                <!-- ISI -->
                 <div class="flex-1">
                     @yield('content')
                 </div>
-
                 <!-- FOOTER -->
                 @include('components.footer')
             </div>
@@ -233,7 +201,6 @@
     $('#dataTable').DataTable({
         responsive: true,
         pageLength: 50,
-
         language: {
             decimal: "",
             emptyTable: "Data tidak ditemukan",
@@ -246,13 +213,7 @@
             processing: "Memproses...",
             search: "Cari :",
             zeroRecords: "Data tidak ditemukan",
-
-            paginate: {
-                first: "<<",
-                last: ">>",
-                next: ">",
-                previous: "<"
-            }
+            paginate: { first: "<<", last: ">>", next: ">", previous: "<" }
         }
     });
 </script>

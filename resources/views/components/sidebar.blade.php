@@ -1,58 +1,127 @@
 <aside id="sidebar"
-    class="fixed top-16 left-0 w-64 h-[calc(100vh-4rem)] bg-gradient-to-b from-orange-900 via-red-800 to-amber-900 text-white p-5 shadow-xl z-40 -translate-x-full lg:translate-x-0 lg:transform-none transition-all duration-300">
-    <!-- Logo / Judul -->
-    <div class="mb-4">
-        <h2 class="text-xl font-bold tracking-wide">
-            MENU ADMIN
-        </h2>
-        <div class="w-16 h-1 bg-orange-300 rounded-full mt-1"></div>
+    class="fixed top-16 left-0 w-64 h-[calc(100vh-4rem)] p-4 shadow-2xl z-40 -translate-x-full lg:translate-x-0 lg:transform-none transition-all duration-300 flex flex-col"
+    style="background: rgba(12,12,12,0.98); backdrop-filter: blur(20px); border-right: 1px solid rgba(225,29,72,0.1);">
+
+    <!-- Brand dalam sidebar -->
+    <div class="mb-6 px-2">
+        <p class="text-xs font-semibold uppercase tracking-widest mb-1" style="color: rgba(225,29,72,0.7);">Navigation</p>
+        <div class="h-px" style="background: linear-gradient(90deg, rgba(225,29,72,0.5), transparent);"></div>
     </div>
 
     <!-- Navigation -->
-    <nav class="space-y-1 text-sm">
+    <nav class="flex-1 space-y-1 text-sm">
         <!-- Dashboard -->
         <a href="{{ route('admin.dashboard') }}"
-            class="flex items-center gap-3 px-4 py-1 rounded-xl transition
+            class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
             {{ request()->routeIs('admin.dashboard')
-                ? 'bg-white text-orange-800 font-semibold shadow'
-                : 'hover:bg-white/10' }}">
-            <i class="fa-solid fa-house text-base w-5 text-center"></i>
-            <span>Dashboard</span>
+                ? 'active-link'
+                : 'inactive-link' }}">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all
+                {{ request()->routeIs('admin.dashboard') ? 'icon-active' : 'icon-inactive' }}">
+                <i class="fa-solid fa-house text-sm"></i>
+            </span>
+            <span class="font-medium">Dashboard</span>
+            @if(request()->routeIs('admin.dashboard'))
+            <span class="ml-auto w-1.5 h-1.5 rounded-full" style="background: #e11d48;"></span>
+            @endif
         </a>
+
         <!-- Genteng -->
         <a href="{{ route('admin.genteng') }}"
-            class="flex items-center gap-3 px-4 py-1 rounded-xl transition
+            class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
             {{ request()->routeIs('admin.genteng')
-                ? 'bg-white text-orange-800 font-semibold shadow'
-                : 'hover:bg-white/10' }}">
-            <i class="fa-solid fa-layer-group text-base w-5 text-center"></i>
-            <span>Data Genteng</span>
+                ? 'active-link'
+                : 'inactive-link' }}">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all
+                {{ request()->routeIs('admin.genteng') ? 'icon-active' : 'icon-inactive' }}">
+                <i class="fa-solid fa-layer-group text-sm"></i>
+            </span>
+            <span class="font-medium">Data Genteng</span>
+            @if(request()->routeIs('admin.genteng'))
+            <span class="ml-auto w-1.5 h-1.5 rounded-full" style="background: #e11d48;"></span>
+            @endif
         </a>
+
         <!-- User -->
         <a href="{{ route('admin.user') }}"
-            class="flex items-center gap-3 px-4 py-1 rounded-xl transition
+            class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
             {{ request()->routeIs('admin.user')
-                ? 'bg-white text-orange-800 font-semibold shadow'
-                : 'hover:bg-white/10' }}">
-            <i class="fa-solid fa-users text-base w-5 text-center"></i>
-            <span>Manajemen User</span>
+                ? 'active-link'
+                : 'inactive-link' }}">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all
+                {{ request()->routeIs('admin.user') ? 'icon-active' : 'icon-inactive' }}">
+                <i class="fa-solid fa-users text-sm"></i>
+            </span>
+            <span class="font-medium">Manajemen User</span>
+            @if(request()->routeIs('admin.user'))
+            <span class="ml-auto w-1.5 h-1.5 rounded-full" style="background: #e11d48;"></span>
+            @endif
         </a>
+
         <!-- Setting -->
         <a href="{{ route('admin.setting') }}"
-            class="flex items-center gap-3 px-4 py-1 rounded-xl transition
+            class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
             {{ request()->routeIs('admin.setting')
-                ? 'bg-white text-orange-800 font-semibold shadow-lg'
-                : 'hover:bg-white/10' }}">
-            <i class="fa-solid fa-gear text-base w-5 text-center"></i>
-            <span>Setting</span>
+                ? 'active-link'
+                : 'inactive-link' }}">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all
+                {{ request()->routeIs('admin.setting') ? 'icon-active' : 'icon-inactive' }}">
+                <i class="fa-solid fa-gear text-sm"></i>
+            </span>
+            <span class="font-medium">Setting</span>
+            @if(request()->routeIs('admin.setting'))
+            <span class="ml-auto w-1.5 h-1.5 rounded-full" style="background: #e11d48;"></span>
+            @endif
         </a>
     </nav>
+
+    <!-- Bottom: logout shortcut -->
+    <div class="mt-4 pt-4" style="border-top: 1px solid rgba(255,255,255,0.05);">
+        <a href="{{ route('logout') }}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm"
+           style="color: rgba(248,113,113,0.8);"
+           onmouseover="this.style.background='rgba(225,29,72,0.1)'; this.style.color='#f87171';"
+           onmouseout="this.style.background='transparent'; this.style.color='rgba(248,113,113,0.8)';">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(225,29,72,0.1);">
+                <i class="fa-solid fa-right-from-bracket text-sm"></i>
+            </span>
+            <span class="font-medium">Logout</span>
+        </a>
+    </div>
 </aside>
 
 <!-- Overlay Mobile -->
-<div id="overlay"
-    class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden">
-</div>
+<div id="overlay" class="fixed inset-0 bg-black/60 z-30 hidden lg:hidden backdrop-blur-sm"></div>
+
+<style>
+    .active-link {
+        color: white;
+        background: rgba(225,29,72,0.15);
+        border: 1px solid rgba(225,29,72,0.25);
+    }
+    .inactive-link {
+        color: rgba(156,163,175,1);
+        border: 1px solid transparent;
+    }
+    .inactive-link:hover {
+        background: rgba(255,255,255,0.05);
+        color: white;
+        border-color: rgba(255,255,255,0.06);
+    }
+    .icon-active {
+        background: linear-gradient(135deg, #e11d48, #9f1239);
+        color: white;
+        box-shadow: 0 0 12px rgba(225,29,72,0.4);
+    }
+    .icon-inactive {
+        background: rgba(255,255,255,0.06);
+        color: rgba(156,163,175,0.8);
+    }
+    .inactive-link:hover .icon-inactive {
+        background: rgba(225,29,72,0.12);
+        color: #e11d48;
+    }
+</style>
 
 <script>
     const menuBtn = document.getElementById('menuBtn');
@@ -63,7 +132,6 @@
         sidebar.classList.toggle('-translate-x-full');
         overlay.classList.toggle('hidden');
     });
-
     overlay.addEventListener('click', () => {
         sidebar.classList.add('-translate-x-full');
         overlay.classList.add('hidden');
