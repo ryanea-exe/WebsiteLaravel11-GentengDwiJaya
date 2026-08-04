@@ -2,8 +2,14 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', 'Genteng Dwijaya')</title>
+    <title>@yield('title', $appSetting->app_name)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{-- Favicon dinamis dari logo setting --}}
+    @if($appSetting->app_logo)
+    <link rel="icon" type="image/png" href="{{ asset($appSetting->app_logo) }}">
+    @else
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e11d48'><path d='M12 2L2 8v2h20V8L12 2zm-9 9v9h6v-5h6v5h6V11H3z'/></svg>">
+    @endif
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">

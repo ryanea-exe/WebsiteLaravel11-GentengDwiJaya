@@ -18,15 +18,27 @@
 
         <!-- Brand -->
         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 group">
-            <div class="w-8 h-8 rounded-lg flex items-center justify-center shadow-lg transition group-hover:scale-105"
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shadow-lg transition group-hover:scale-105 overflow-hidden flex-shrink-0"
                  style="background: linear-gradient(135deg, #e11d48, #9f1239); box-shadow: 0 0 14px rgba(225,29,72,0.35);">
-                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2L2 8v2h20V8L12 2zm-9 9v9h6v-5h6v5h6V11H3z"/>
-                </svg>
+                @if($appSetting->app_logo)
+                    <img src="{{ asset($appSetting->app_logo) }}" alt="Logo" class="w-full h-full object-cover">
+                @else
+                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L2 8v2h20V8L12 2zm-9 9v9h6v-5h6v5h6V11H3z"/>
+                    </svg>
+                @endif
             </div>
             <div class="hidden sm:block leading-tight">
+                @php
+                    $nameParts = explode(' ', $appSetting->app_name, 2);
+                    $firstName  = $nameParts[0];
+                    $restName   = $nameParts[1] ?? '';
+                @endphp
                 <p class="text-sm font-bold text-white tracking-tight">
-                    Genteng <span style="background: linear-gradient(135deg,#e11d48,#f97316); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Dwijaya</span>
+                    {{ $firstName }}
+                    @if($restName)
+                        <span style="background: linear-gradient(135deg,#e11d48,#f97316); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">{{ $restName }}</span>
+                    @endif
                 </p>
                 <p class="text-xs text-gray-500">Admin Panel</p>
             </div>

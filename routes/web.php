@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GentengController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Route;
 
 // LANDING PAGE
@@ -47,6 +48,10 @@ Route::middleware(['auth.login'])->prefix('admin')->group(function () {
         ->name('admin.genteng.delete');
 
     // ================= SETTING =================
-    Route::view('/setting', 'admin.setting.index')
+    Route::get('/setting', [SettingController::class, 'index'])
         ->name('admin.setting');
+    Route::post('/setting/update', [SettingController::class, 'update'])
+        ->name('admin.setting.update');
+    Route::get('/setting/delete-logo', [SettingController::class, 'deleteLogo'])
+        ->name('admin.setting.delete-logo');
 });

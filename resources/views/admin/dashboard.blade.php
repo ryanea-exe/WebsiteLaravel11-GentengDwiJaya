@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Dashboard - Genteng Dwijaya')
+@section('title', 'Dashboard - ' . $appSetting->app_name)
 
 @section('content')
 

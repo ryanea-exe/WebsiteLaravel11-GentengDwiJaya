@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Genteng Dwijaya - Produsen genteng berkualitas tinggi, tahan lama, dan harga terjangkau di Indonesia.">
-    <title>Genteng Dwijaya | Kualitas Terbaik untuk Rumah Anda</title>
+    <meta name="description" content="{{ $appSetting->app_name }} - Produsen genteng berkualitas tinggi, tahan lama, dan harga terjangkau di Indonesia.">
+    <title>{{ $appSetting->app_name }} | Kualitas Terbaik untuk Rumah Anda</title>
+    {{-- Favicon --}}
+    @if($appSetting->app_logo)
+    <link rel="icon" type="image/png" href="{{ asset($appSetting->app_logo) }}">
+    @else
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e11d48'><path d='M12 2L2 8v2h20V8L12 2zm-9 9v9h6v-5h6v5h6V11H3z'/></svg>">
+    @endif
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,10 +64,15 @@
 <nav id="navbar" class="fixed top-0 w-full z-50 py-4">
     <div class="container mx-auto px-6 flex items-center justify-between">
         <a href="#hero" class="flex items-center gap-3 group">
-            <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg">
-                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 8v2h20V8L12 2zm-9 9v9h6v-5h6v5h6V11H3z"/></svg>
+            <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg overflow-hidden">
+                @if($appSetting->app_logo)
+                    <img src="{{ asset($appSetting->app_logo) }}" alt="Logo" class="w-full h-full object-cover">
+                @else
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 8v2h20V8L12 2zm-9 9v9h6v-5h6v5h6V11H3z"/></svg>
+                @endif
             </div>
-            <span class="text-lg font-bold tracking-tight">Genteng <span class="text-gradient">Dwijaya</span></span>
+            @php $lpParts = explode(' ', $appSetting->app_name, 2); @endphp
+            <span class="text-lg font-bold tracking-tight">{{ $lpParts[0] }} @if(isset($lpParts[1]))<span class="text-gradient">{{ $lpParts[1] }}</span>@endif</span>
         </a>
         <div class="hidden md:flex items-center gap-8 text-sm text-gray-400">
             <a href="#hero"       class="hover:text-red-400 transition relative group">Home<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300"></span></a>
@@ -128,12 +139,12 @@
             <div class="blob absolute w-[350px] h-[350px] opacity-80"></div>
             <div class="absolute w-[400px] h-[400px] rounded-full border border-red-500/20 ping-slow"></div>
             <div class="absolute w-[460px] h-[460px] rounded-full border border-red-500/10"></div>
-            <div class="floating-badge absolute -top-4 -left-4 glass rounded-2xl px-4 py-3 z-20 shadow-xl">
+            <!-- <div class="floating-badge absolute -top-4 -left-4 glass rounded-2xl px-4 py-3 z-20 shadow-xl">
                 <div class="flex items-center gap-2">
                     <span class="text-2xl">🏆</span>
                     <div><p class="font-bold text-white text-xs">Award Winner</p><p class="text-gray-400 text-xs">Best Quality 2024</p></div>
                 </div>
-            </div>
+            </div> -->
             <div class="absolute bottom-8 -right-4 glass rounded-2xl px-4 py-3 z-20 shadow-xl" style="animation: floatBadge 4s ease-in-out 2s infinite;">
                 <div class="flex items-center gap-2">
                     <span class="text-2xl">⭐</span>
@@ -355,7 +366,7 @@
                 </div>
             </div>
             <div class="lg:col-span-2 reveal glass rounded-3xl overflow-hidden" style="height: 360px; transition-delay:0.2s">
-                <iframe src="https://maps.google.com/maps?q=ponorogo&t=&z=13&ie=UTF8&iwloc=&output=embed" class="w-full h-full border-0" loading="lazy" title="Lokasi Genteng Dwijaya"></iframe>
+                <iframe src="https://maps.google.com/maps?q=ponorogo&t=&z=13&ie=UTF8&iwloc=&output=embed" class="w-full h-full border-0" loading="lazy" title="Lokasi {{ $appSetting->app_name }}"></iframe>
             </div>
         </div>
     </div>
@@ -389,10 +400,15 @@
         <div class="grid md:grid-cols-3 gap-10 mb-10">
             <div>
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg">
-                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 8v2h20V8L12 2zm-9 9v9h6v-5h6v5h6V11H3z"/></svg>
+                    <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-lg overflow-hidden">
+                        @if($appSetting->app_logo)
+                            <img src="{{ asset($appSetting->app_logo) }}" alt="Logo" class="w-full h-full object-cover">
+                        @else
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 8v2h20V8L12 2zm-9 9v9h6v-5h6v5h6V11H3z"/></svg>
+                        @endif
                     </div>
-                    <span class="text-lg font-bold">Genteng <span class="text-gradient">Dwijaya</span></span>
+                    @php $fpParts = explode(' ', $appSetting->app_name, 2); @endphp
+                    <span class="text-lg font-bold">{{ $fpParts[0] }} @if(isset($fpParts[1]))<span class="text-gradient">{{ $fpParts[1] }}</span>@endif</span>
                 </div>
                 <p class="text-gray-600 text-sm leading-relaxed">Produsen genteng berkualitas tinggi sejak tahun 2000. Melayani seluruh wilayah Indonesia.</p>
             </div>
@@ -421,7 +437,7 @@
             </div>
         </div>
         <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p class="text-gray-700 text-xs">&copy; 2026 Genteng Dwijaya. All rights reserved.</p>
+            <p class="text-gray-700 text-xs">&copy; {{ date('Y') }} {{ $appSetting->app_name }}. All rights reserved.</p>
             <div class="flex gap-6 text-xs text-gray-700">
                 <a href="#" class="hover:text-red-400 transition">Kebijakan Privasi</a>
                 <a href="#" class="hover:text-red-400 transition">Syarat &amp; Ketentuan</a>

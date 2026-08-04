@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Manajemen User - Genteng Dwijaya')
+@section('title', 'Manajemen User - ' . $appSetting->app_name)
 
 @section('content')
 

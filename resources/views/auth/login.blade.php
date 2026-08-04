@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Login - Genteng Dwijaya Admin Panel">
-    <title>Login | Genteng Dwijaya</title>
+    <meta name="description" content="Login - {{ $appSetting->app_name }} Admin Panel">
+    <title>Login | {{ $appSetting->app_name }}</title>
+    {{-- Favicon --}}
+    @if($appSetting->app_logo)
+    <link rel="icon" type="image/png" href="{{ asset($appSetting->app_logo) }}">
+    @else
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e11d48'><path d='M12 2L2 8v2h20V8L12 2zm-9 9v9h6v-5h6v5h6V11H3z'/></svg>">
+    @endif
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -183,15 +189,23 @@
         <div class="text-center mb-8">
             <a href="/" class="inline-flex flex-col items-center gap-3 group">
                 <div class="relative">
-                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-2xl shadow-red-950/60 group-hover:shadow-red-500/40 transition-all duration-300 group-hover:scale-105">
-                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2L2 8v2h20V8L12 2zm-9 9v9h6v-5h6v5h6V11H3z"/>
-                        </svg>
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center shadow-2xl shadow-red-950/60 group-hover:shadow-red-500/40 transition-all duration-300 group-hover:scale-105 overflow-hidden">
+                        @if($appSetting->app_logo)
+                            <img src="{{ asset($appSetting->app_logo) }}" alt="Logo" class="w-full h-full object-cover">
+                        @else
+                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2L2 8v2h20V8L12 2zm-9 9v9h6v-5h6v5h6V11H3z"/>
+                            </svg>
+                        @endif
                     </div>
                     <div class="absolute -inset-1 rounded-2xl bg-gradient-to-br from-red-600 to-red-900 opacity-20 blur-lg group-hover:opacity-30 transition"></div>
                 </div>
                 <div>
-                    <p class="text-xl font-black tracking-tight text-white">Genteng <span class="text-gradient">Dwijaya</span></p>
+                    @php
+                        $lParts = explode(' ', $appSetting->app_name, 2);
+                        $lFirst = $lParts[0]; $lRest = $lParts[1] ?? '';
+                    @endphp
+                    <p class="text-xl font-black tracking-tight text-white">{{ $lFirst }} @if($lRest)<span class="text-gradient">{{ $lRest }}</span>@endif</p>
                     <p class="text-gray-500 text-xs mt-0.5">Admin Panel</p>
                 </div>
             </a>
@@ -331,7 +345,7 @@
 
         <!-- Footer text -->
         <p class="text-center text-gray-700 text-xs mt-6">
-            &copy; 2026 Genteng Dwijaya. All rights reserved.
+            &copy; {{ date('Y') }} {{ $appSetting->app_name }}. All rights reserved.
         </p>
 
     </div>
