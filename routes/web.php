@@ -36,6 +36,11 @@ Route::middleware(['auth.login'])->prefix('admin')->group(function () {
         ->name('admin.user.update');
     Route::get('/user/delete/{id}', [UserController::class, 'destroy'])
         ->name('admin.user.delete');
+    // Edit Profile (user yang sedang login)
+    Route::get('/profile', [UserController::class, 'editProfile'])
+        ->name('admin.profile');
+    Route::post('/profile/update', [UserController::class, 'updateProfile'])
+        ->name('admin.profile.update');
 
     // ================= GENTENG =================
     Route::get('/genteng', [GentengController::class, 'index'])

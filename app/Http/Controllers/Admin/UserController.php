@@ -68,6 +68,48 @@ class UserController extends Controller
         return back()->with('success', 'User berhasil diupdate');
     }
 
+    // Edit profile user yang sedang login
+    public function editProfile()
+    {
+        $user = User::findOrFail(session('user_id'));
+        return view('admin.user.edit-profile', compact('user'));
+    }
+
+    // Update profile user yang sedang login
+    public function updateProfile(Request $request)
+    {
+        $user = User::findOrFail(session('user_id'));
+
+        $request->validate([
+            'nama'     => 'required|string|max:100',
+            'email'    => 'required|email|unique:user,email,' . $user->id,
+            'password' => 'nullable|min:5|confirmed',
+            'foto'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        // Handle foto upload
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama jika ada
+            if ($user->foto && file_exists(public_path('uploads/user/' . $user->foto))) {
+                unlink(public_path('uploads/user/' . $user->foto));
+            }
+            $foto = time() . '.' . $request->foto->extension();
+            $request->foto->move(public_path('uploads/user'), $foto);
+            $user->foto = $foto;
+        }
+
+        $user->nama  = $request->nama;
+        $user->email = $request->email;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return back()->with('success', 'Profil berhasil diperbarui!');
+    }
+
     // Delete user
     public function destroy($id)
     {

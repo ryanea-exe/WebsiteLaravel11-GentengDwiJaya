@@ -50,8 +50,7 @@
         @if(Session::get('user_id'))
         <div class="relative">
             <button id="userDropdownBtn"
-                class="flex items-center gap-2.5 hover:bg-white/8 px-3 py-2 rounded-xl transition-all duration-200"
-                style="border: 1px solid rgba(255,255,255,0.08);">
+                class="flex items-center gap-2.5 hover:bg-white/8 px-3 py-2 rounded-xl transition-all duration-200">
                 <!-- Avatar -->
                 @if($userLogin && $userLogin->foto)
                     <img src="{{ asset('uploads/user/' . $userLogin->foto) }}"
@@ -76,7 +75,7 @@
 
             <!-- Dropdown Menu -->
             <div id="userDropdownMenu"
-                 class="absolute right-0 mt-2 w-52 rounded-2xl shadow-2xl overflow-hidden hidden"
+                 class="dropdown-menu absolute right-0 w-56 rounded-2xl shadow-2xl overflow-hidden"
                  style="background: rgba(18,18,18,0.98); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 20px 60px rgba(0,0,0,0.6); top: calc(100% + 8px);">
                 <!-- User info header -->
                 <div class="px-4 py-3" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
@@ -98,12 +97,11 @@
                 </div>
                 <!-- Menu items -->
                 <div class="p-2">
-                    <a href="{{ route('admin.setting') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-300 hover:bg-white/8 hover:text-white transition">
+                    <a href="{{ route('admin.profile') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-300 hover:bg-white/8 hover:text-white transition">
                         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
-                        Pengaturan
+                        Edit Profile
                     </a>
                     <div style="height:1px; background: rgba(255,255,255,0.06); margin: 4px 8px;"></div>
                     {{-- Tombol logout → buka modal konfirmasi --}}
@@ -281,6 +279,22 @@
     .modal-box { border-radius: 16px 16px 0 0; max-height: 85vh; }
     .modal-overlay { align-items: flex-end; }
 }
+
+/* ===== Dropdown animation ===== */
+.dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px) scale(0.97);
+    transition: opacity 0.2s ease, transform 0.22s cubic-bezier(0.34,1.56,0.64,1), visibility 0.2s ease;
+    transform-origin: top right;
+}
+.dropdown-menu.dropdown-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
 </style>
 
 <script>
@@ -289,15 +303,25 @@
     const dropdownMenu  = document.getElementById('userDropdownMenu');
     const dropdownArrow = document.getElementById('dropdownArrow');
 
+    function openDropdown() {
+        dropdownMenu.classList.add('dropdown-open');
+        dropdownArrow.classList.add('rotate-180');
+    }
+    function closeDropdown() {
+        dropdownMenu.classList.remove('dropdown-open');
+        dropdownArrow.classList.remove('rotate-180');
+    }
+    function isDropdownOpen() {
+        return dropdownMenu.classList.contains('dropdown-open');
+    }
+
     if (dropdownBtn) {
         dropdownBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            dropdownMenu.classList.toggle('hidden');
-            dropdownArrow.classList.toggle('rotate-180');
+            isDropdownOpen() ? closeDropdown() : openDropdown();
         });
         document.addEventListener('click', function() {
-            dropdownMenu.classList.add('hidden');
-            dropdownArrow.classList.remove('rotate-180');
+            closeDropdown();
         });
         dropdownMenu.addEventListener('click', function(e) { e.stopPropagation(); });
     }
@@ -305,10 +329,7 @@
     /* ===== Modal functions (konsisten dengan halaman lain) ===== */
     function modalOpen(id) {
         // Tutup dropdown dulu jika terbuka
-        if (dropdownMenu) {
-            dropdownMenu.classList.add('hidden');
-            if (dropdownArrow) dropdownArrow.classList.remove('rotate-180');
-        }
+        closeDropdown();
         const el = document.getElementById(id);
         if (el) {
             el.classList.add('modal-active');
@@ -328,9 +349,10 @@
         if (e.target === document.getElementById(id)) modalClose(id);
     }
 
-    /* ESC key untuk tutup semua modal */
+    /* ESC key untuk tutup semua modal dan dropdown */
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
+            closeDropdown();
             document.querySelectorAll('.modal-overlay.modal-active')
                 .forEach(m => m.classList.remove('modal-active'));
             document.body.style.overflow = '';
