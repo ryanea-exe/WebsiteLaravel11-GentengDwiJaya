@@ -75,19 +75,22 @@
         </a>
     </nav>
 
-    <!-- Bottom: logout shortcut -->
-    <div class="mt-4 pt-4" style="border-top: 1px solid rgba(255,255,255,0.05);">
-        <a href="{{ route('logout') }}"
-           class="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm"
-           style="color: rgba(248,113,113,0.8);"
-           onmouseover="this.style.background='rgba(225,29,72,0.1)'; this.style.color='#f87171';"
-           onmouseout="this.style.background='transparent'; this.style.color='rgba(248,113,113,0.8)';">
-            <span class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(225,29,72,0.1);">
-                <i class="fa-solid fa-right-from-bracket text-sm"></i>
-            </span>
-            <span class="font-medium">Logout</span>
-        </a>
+    <!-- Bottom: Jam & Tanggal Realtime -->
+    <div class="mt-4 pt-4" style="border-top: 1px solid rgba(225,29,72,0.2);">
+        <div class="px-2 py-2 rounded-xl text-center">
+            {{-- Jam realtime --}}
+            <p id="sidebarClock"
+               class="text-xl font-black text-white tracking-tight leading-none mb-1"
+               style="font-variant-numeric: tabular-nums; letter-spacing: -0.5px;">
+                00:00:00
+            </p>
+            {{-- Hari + Tanggal --}}
+            <p id="sidebarDate" class="text-xs font-medium" style="color: rgba(156,163,175,0.75);">
+                Memuat...
+            </p>
+        </div>
     </div>
+
 </aside>
 
 <!-- Overlay Mobile -->
@@ -136,4 +139,28 @@
         sidebar.classList.add('-translate-x-full');
         overlay.classList.add('hidden');
     });
+
+    /* ===== Real-time clock ===== */
+    const hariID = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+    const bulanID = ['Januari','Februari','Maret','April','Mei','Juni',
+                     'Juli','Agustus','September','Oktober','November','Desember'];
+
+    function updateClock() {
+        const now  = new Date();
+        const hh   = String(now.getHours()).padStart(2, '0');
+        const mm   = String(now.getMinutes()).padStart(2, '0');
+        const ss   = String(now.getSeconds()).padStart(2, '0');
+        const hari = hariID[now.getDay()];
+        const tgl  = now.getDate();
+        const bln  = bulanID[now.getMonth()];
+        const thn  = now.getFullYear();
+
+        const clockEl = document.getElementById('sidebarClock');
+        const dateEl  = document.getElementById('sidebarDate');
+        if (clockEl) clockEl.textContent = `${hh}:${mm}:${ss}`;
+        if (dateEl)  dateEl.textContent  = `${hari}, ${tgl} ${bln} ${thn}`;
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
 </script>
