@@ -17,7 +17,7 @@
         </button>
 
         <!-- Brand -->
-        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 group">
+        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-4 group">
             <div class="w-8 h-8 rounded-lg flex items-center justify-center shadow-lg transition group-hover:scale-105 overflow-hidden flex-shrink-0"
                  style="background: linear-gradient(135deg, #e11d48, #9f1239); box-shadow: 0 0 14px rgba(225,29,72,0.35);">
                 @if($appSetting->app_logo)
@@ -40,7 +40,7 @@
                         <span style="background: linear-gradient(135deg,#e11d48,#f97316); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">{{ $restName }}</span>
                     @endif
                 </p>
-                <p class="text-xs text-gray-500">Admin Panel</p>
+                <p class="text-xs text-gray-500">Panel Admin</p>
             </div>
         </a>
     </div>

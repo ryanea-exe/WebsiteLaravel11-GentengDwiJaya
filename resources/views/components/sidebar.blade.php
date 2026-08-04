@@ -68,7 +68,7 @@
                 {{ request()->routeIs('admin.setting') ? 'icon-active' : 'icon-inactive' }}">
                 <i class="fa-solid fa-gear text-xs"></i>
             </span>
-            <span class="font-medium">Setting</span>
+            <span class="font-medium">Pengaturan</span>
             @if(request()->routeIs('admin.setting'))
             <span class="ml-auto w-1.5 h-1.5 rounded-full" style="background: #e11d48;"></span>
             @endif

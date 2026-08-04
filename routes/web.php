@@ -53,10 +53,10 @@ Route::middleware(['auth.login'])->prefix('admin')->group(function () {
         ->name('admin.genteng.delete');
 
     // ================= SETTING =================
-    Route::get('/setting', [SettingController::class, 'index'])
+    Route::get('/pengaturan', [SettingController::class, 'index'])
         ->name('admin.setting');
-    Route::post('/setting/update', [SettingController::class, 'update'])
+    Route::post('/pengaturan/update', [SettingController::class, 'update'])
         ->name('admin.setting.update');
-    Route::get('/setting/delete-logo', [SettingController::class, 'deleteLogo'])
+    Route::get('/pengaturan/delete-logo', [SettingController::class, 'deleteLogo'])
         ->name('admin.setting.delete-logo');
 });
