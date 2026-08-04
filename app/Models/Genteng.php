@@ -13,6 +13,7 @@ class Genteng extends Model
         'jenis',
         'harga',
         'stok',
-        'deskripsi'
+        'deskripsi',
+        'foto'
     ];
 }

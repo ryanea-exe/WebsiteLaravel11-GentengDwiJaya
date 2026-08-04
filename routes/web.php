@@ -7,10 +7,11 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Route;
 
-// LANDING PAGE
-Route::get('/', function () {
-    return view('landing-page');
-});
+use App\Http\Controllers\FrontController;
+
+// LANDING PAGE & KATALOG
+Route::get('/', [FrontController::class, 'index'])->name('home');
+Route::get('/daftar-genteng', [FrontController::class, 'katalog'])->name('daftar-genteng');
 
 // LOGIN
 Route::get('/login', [LoginController::class, 'index'])
@@ -51,6 +52,8 @@ Route::middleware(['auth.login'])->prefix('admin')->group(function () {
         ->name('admin.genteng.update');
     Route::get('/genteng/delete/{id}', [GentengController::class, 'destroy'])
         ->name('admin.genteng.delete');
+    Route::get('/genteng/delete-foto/{id}', [GentengController::class, 'deleteFoto'])
+        ->name('admin.genteng.delete-foto');
 
     // ================= SETTING =================
     Route::get('/pengaturan', [SettingController::class, 'index'])

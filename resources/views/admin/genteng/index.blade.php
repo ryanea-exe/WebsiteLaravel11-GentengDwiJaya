@@ -59,7 +59,7 @@
             <thead>
                 <tr>
                     <th class="p-3 text-left">No</th>
-                    <th class="p-3 text-left">Nama Produk</th>
+                    <th class="p-3 text-left">Nama Genteng</th>
                     <th class="p-3 text-left">Jenis</th>
                     <th class="p-3 text-left">Harga</th>
                     <th class="p-3 text-left">Stok</th>
@@ -75,10 +75,24 @@
                     </td>
                     <td class="px-3 py-3">
                         <div class="flex items-center gap-2.5">
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
-                                 style="background: linear-gradient(135deg,rgba(225,29,72,0.6),rgba(159,18,57,0.9));">
-                                {{ strtoupper(substr($d->nama, 0, 1)) }}
-                            </div>
+                            @php
+                                $words = explode(' ', trim($d->nama));
+                                $inisial = count($words) >= 2
+                                    ? substr($words[0], 0, 1) . substr($words[1], 0, 1)
+                                    : substr($words[0], 0, 2);
+                            @endphp
+                            @if($d->foto)
+                                <div class="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0"
+                                     style="border:1px solid rgba(225,29,72,0.3); box-shadow:0 0 8px rgba(225,29,72,0.2);">
+                                    <img src="{{ asset('uploads/genteng/' . $d->foto) }}"
+                                         alt="{{ $d->nama }}" class="w-full h-full object-cover">
+                                </div>
+                            @else
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-white flex-shrink-0 tracking-wider"
+                                     style="background: linear-gradient(135deg,rgba(225,29,72,0.6),rgba(159,18,57,0.9));">
+                                    {{ strtoupper($inisial) }}
+                                </div>
+                            @endif
                             <span class="font-medium text-white">{{ $d->nama }}</span>
                         </div>
                     </td>
@@ -168,7 +182,7 @@
             </button>
         </div>
 
-        <form method="POST" action="/admin/genteng/store" class="modal-body">
+        <form method="POST" action="/admin/genteng/store" class="modal-body" enctype="multipart/form-data">
             @csrf
             <div class="form-grid">
                 <div class="form-group col-span-2">
@@ -198,6 +212,28 @@
                 <div class="form-group col-span-2">
                     <label class="form-label">Deskripsi</label>
                     <textarea name="deskripsi" rows="3" placeholder="Deskripsi singkat produk..." class="form-input resize-none"></textarea>
+                </div>
+                <div class="form-group col-span-2">
+                    <label class="form-label">Foto Genteng <span style="color:rgba(107,114,128,0.6);font-weight:400;">(opsional &middot; JPG, PNG, WebP &middot; Maks 2MB)</span></label>
+                    <div class="foto-upload-area" onclick="document.getElementById('tambahFotoInput').click()">
+                        <div id="tambahFotoPreviewWrap" class="hidden flex items-center gap-3">
+                            <div class="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0" style="border:1px solid rgba(225,29,72,0.3);">
+                                <img id="tambahFotoPreview" src="" alt="" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <p id="tambahFotoName" class="text-xs text-white font-medium"></p>
+                                <button type="button" onclick="clearTambahFoto(event)" class="text-xs mt-1" style="color:#f87171;">&#10005; Hapus</button>
+                            </div>
+                        </div>
+                        <div id="tambahFotoPlaceholder" class="flex flex-col items-center gap-2 py-1">
+                            <svg class="w-7 h-7" style="color:rgba(107,114,128,0.5);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <span class="text-xs" style="color:rgba(107,114,128,0.6);">Klik untuk upload foto</span>
+                        </div>
+                        <input type="file" id="tambahFotoInput" name="foto" accept=".jpg,.jpeg,.png,.webp"
+                               class="hidden" onchange="handleTambahFotoPreview(this)">
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -236,7 +272,7 @@
             </button>
         </div>
 
-        <form id="editForm" method="POST" class="modal-body">
+        <form id="editForm" method="POST" class="modal-body" enctype="multipart/form-data">
             @csrf
             <div class="form-grid">
                 <div class="form-group col-span-2">
@@ -266,6 +302,49 @@
                 <div class="form-group col-span-2">
                     <label class="form-label">Deskripsi</label>
                     <textarea name="deskripsi" id="editDeskripsi" rows="3" class="form-input resize-none"></textarea>
+                </div>
+                <div class="form-group col-span-2">
+                    <label class="form-label">Foto Genteng <span style="color:rgba(107,114,128,0.6);font-weight:400;">(opsional &middot; kosongkan jika tidak diubah)</span></label>
+                    {{-- Foto saat ini --}}
+                    <div id="editFotoCurrentWrap" class="hidden mb-2 flex items-center gap-3 rounded-xl px-3 py-2.5"
+                         style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07);">
+                        <div class="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0" style="border:1px solid rgba(225,29,72,0.25);">
+                            <img id="editFotoCurrentImg" src="" alt="" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-xs text-white font-medium mb-1">Foto Saat Ini</p>
+                            <p id="editFotoCurrentName" class="text-xs truncate" style="color:rgba(107,114,128,0.7);"></p>
+                        </div>
+                        <a id="editFotoDeleteBtn" href="#"
+                           onclick="return confirm('Hapus foto genteng ini?')"
+                           class="inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg transition flex-shrink-0"
+                           style="background:rgba(225,29,72,0.12); color:#f87171; border:1px solid rgba(225,29,72,0.25);">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                            Hapus Foto
+                        </a>
+                    </div>
+                    {{-- Upload foto baru --}}
+                    <div class="foto-upload-area" onclick="document.getElementById('editFotoInput').click()">
+                        <div id="editFotoPreviewWrap" class="hidden flex items-center gap-3">
+                            <div class="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0" style="border:1px solid rgba(225,29,72,0.3);">
+                                <img id="editFotoPreview" src="" alt="" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <p id="editFotoName" class="text-xs text-white font-medium"></p>
+                                <button type="button" onclick="clearEditFoto(event)" class="text-xs mt-1" style="color:#f87171;">&#10005; Batalkan</button>
+                            </div>
+                        </div>
+                        <div id="editFotoPlaceholder" class="flex flex-col items-center gap-2 py-1">
+                            <svg class="w-7 h-7" style="color:rgba(107,114,128,0.5);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <span class="text-xs" style="color:rgba(107,114,128,0.6);">Klik untuk ganti foto</span>
+                        </div>
+                        <input type="file" id="editFotoInput" name="foto" accept=".jpg,.jpeg,.png,.webp"
+                               class="hidden" onchange="handleEditFotoPreview(this)">
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -421,6 +500,20 @@ select.form-input option { background: #1a1a1a; color: white; }
     .modal-box { border-radius: 16px 16px 0 0; margin-top: auto; max-height: 85vh; }
     .modal-overlay { align-items: flex-end; }
 }
+
+/* ---- Foto upload area ---- */
+.foto-upload-area {
+    border: 1.5px dashed rgba(255,255,255,0.12);
+    border-radius: 12px; padding: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    text-align: center; min-height: 62px;
+    display: flex; align-items: center; justify-content: center;
+}
+.foto-upload-area:hover {
+    border-color: rgba(225,29,72,0.4);
+    background: rgba(225,29,72,0.04);
+}
 </style>
 
 {{-- ===== SCRIPTS ===== --}}
@@ -451,12 +544,31 @@ select.form-input option { background: #1a1a1a; color: white; }
 
     /* ---- Edit modal ---- */
     function openEditModal(data) {
-        document.getElementById('editNama').value     = data.nama    || '';
-        document.getElementById('editJenis').value    = data.jenis   || '';
-        document.getElementById('editHarga').value    = data.harga   || '';
-        document.getElementById('editStok').value     = data.stok    || '';
+        document.getElementById('editNama').value      = data.nama      || '';
+        document.getElementById('editJenis').value     = data.jenis     || '';
+        document.getElementById('editHarga').value     = data.harga     || '';
+        document.getElementById('editStok').value      = data.stok      || '';
         document.getElementById('editDeskripsi').value = data.deskripsi || '';
-        document.getElementById('editForm').action   = '/admin/genteng/update/' + data.id;
+        document.getElementById('editForm').action     = '/admin/genteng/update/' + data.id;
+
+        // Reset upload area
+        clearEditFoto(null);
+
+        // Tampilkan foto saat ini jika ada
+        const currentWrap = document.getElementById('editFotoCurrentWrap');
+        const currentImg  = document.getElementById('editFotoCurrentImg');
+        const currentName = document.getElementById('editFotoCurrentName');
+        const deleteBtn   = document.getElementById('editFotoDeleteBtn');
+
+        if (data.foto) {
+            currentImg.src          = '/uploads/genteng/' + data.foto;
+            currentName.textContent = data.foto;
+            deleteBtn.href          = '/admin/genteng/delete-foto/' + data.id;
+            currentWrap.classList.remove('hidden');
+        } else {
+            currentWrap.classList.add('hidden');
+        }
+
         modalOpen('editModal');
     }
 
@@ -470,8 +582,51 @@ select.form-input option { background: #1a1a1a; color: white; }
     /* Flash auto-hide */
     setTimeout(function(){
         const el = document.getElementById('flash-msg');
-        if (el) el.remove();
+        if (el) { el.style.transition='opacity 0.5s'; el.style.opacity='0'; setTimeout(()=>el.remove(),500); }
     }, 4000);
+
+    /* ---- Foto Tambah ---- */
+    function handleTambahFotoPreview(input) {
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('tambahFotoPreview').src = e.target.result;
+            document.getElementById('tambahFotoName').textContent = file.name;
+            document.getElementById('tambahFotoPreviewWrap').classList.remove('hidden');
+            document.getElementById('tambahFotoPlaceholder').classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
+    }
+    function clearTambahFoto(e) {
+        if (e) e.stopPropagation();
+        document.getElementById('tambahFotoInput').value = '';
+        document.getElementById('tambahFotoPreviewWrap').classList.add('hidden');
+        document.getElementById('tambahFotoPlaceholder').classList.remove('hidden');
+    }
+
+    /* ---- Foto Edit ---- */
+    function handleEditFotoPreview(input) {
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('editFotoPreview').src = e.target.result;
+            document.getElementById('editFotoName').textContent = file.name;
+            document.getElementById('editFotoPreviewWrap').classList.remove('hidden');
+            document.getElementById('editFotoPlaceholder').classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
+    }
+    function clearEditFoto(e) {
+        if (e) e.stopPropagation();
+        const input = document.getElementById('editFotoInput');
+        if (input) input.value = '';
+        const pw = document.getElementById('editFotoPreviewWrap');
+        const ph = document.getElementById('editFotoPlaceholder');
+        if (pw) pw.classList.add('hidden');
+        if (ph) ph.classList.remove('hidden');
+    }
 </script>
 
 @endsection

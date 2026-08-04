@@ -226,54 +226,59 @@
             <p class="text-gray-500 max-w-xs text-sm md:text-right">Temukan genteng yang tepat untuk hunian impian Anda dari koleksi lengkap kami.</p>
         </div>
         <div class="grid md:grid-cols-3 gap-8">
-            <div class="glass rounded-3xl overflow-hidden card-hover reveal" style="transition-delay:0.1s">
+            @forelse($genteng as $index => $item)
+            <div class="glass rounded-3xl overflow-hidden card-hover reveal" style="transition-delay:{{ 0.1 * ($index + 1) }}s">
                 <div class="product-img-wrap h-52">
-                    <img src="https://images.unsplash.com/photo-1598300056393-4aac492f4344?auto=format&fit=crop&w=600&q=80" alt="Genteng Natural" class="w-full h-full object-cover">
+                    @php
+                        $words = explode(' ', trim($item->nama));
+                        $inisial = count($words) >= 2
+                            ? substr($words[0], 0, 1) . substr($words[1], 0, 1)
+                            : substr($words[0], 0, 2);
+                    @endphp
+                    @if($item->foto)
+                        <img src="{{ asset('uploads/genteng/' . $item->foto) }}" alt="{{ $item->nama }}" class="w-full h-full object-cover">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center text-5xl font-bold text-white tracking-widest"
+                             style="background: linear-gradient(135deg,rgba(225,29,72,0.6),rgba(159,18,57,0.9));">
+                            {{ strtoupper($inisial) }}
+                        </div>
+                    @endif
                 </div>
                 <div class="p-6">
                     <div class="flex items-start justify-between mb-3">
-                        <div><h3 class="font-bold text-lg">Genteng Natural</h3><p class="text-gray-500 text-sm mt-1">Kuat, tahan lama, tampilan alami</p></div>
-                        <span class="bg-red-950/60 text-red-400 text-xs font-semibold px-3 py-1 rounded-full border border-red-800/30">Popular</span>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">{{ $item->nama }}</h3>
+                            <p class="text-gray-500 text-sm mt-1 truncate max-w-[150px]">{{ $item->jenis ?? 'Umum' }}</p>
+                        </div>
+                        <span class="bg-red-950/60 text-red-400 text-xs font-semibold px-3 py-1 rounded-full border border-red-800/30 whitespace-nowrap">
+                            Rp {{ number_format($item->harga, 0, ',', '.') }}
+                        </span>
                     </div>
-                    <div class="flex items-center gap-1 mb-4"><span class="text-yellow-500 text-xs">★★★★★</span><span class="text-gray-500 text-xs ml-1">(4.9)</span></div>
-                    <a href="#" class="flex items-center justify-between text-red-400 text-sm font-semibold group">
+                    <div class="mb-4">
+                        <p class="text-gray-400 text-xs line-clamp-2 min-h-[32px]">{{ $item->deskripsi ?? 'Tidak ada deskripsi' }}</p>
+                    </div>
+                    <a href="#" class="flex items-center justify-between text-red-400 text-sm font-semibold group mt-4">
                         <span>Detail Produk</span>
-                        <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
                     </a>
                 </div>
             </div>
-            <div class="glass rounded-3xl overflow-hidden card-hover reveal" style="transition-delay:0.2s">
-                <div class="product-img-wrap h-52">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" alt="Genteng Press" class="w-full h-full object-cover">
-                </div>
-                <div class="p-6">
-                    <div class="flex items-start justify-between mb-3">
-                        <div><h3 class="font-bold text-lg">Genteng Press</h3><p class="text-gray-500 text-sm mt-1">Desain modern, presisi tinggi</p></div>
-                        <span class="bg-orange-950/60 text-orange-400 text-xs font-semibold px-3 py-1 rounded-full border border-orange-800/30">Baru</span>
-                    </div>
-                    <div class="flex items-center gap-1 mb-4"><span class="text-yellow-500 text-xs">★★★★★</span><span class="text-gray-500 text-xs ml-1">(4.8)</span></div>
-                    <a href="#" class="flex items-center justify-between text-red-400 text-sm font-semibold group">
-                        <span>Detail Produk</span>
-                        <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                    </a>
-                </div>
+            @empty
+            <div class="col-span-3 text-center py-10">
+                <p class="text-gray-500">Belum ada data genteng yang tersedia.</p>
             </div>
-            <div class="glass rounded-3xl overflow-hidden card-hover reveal" style="transition-delay:0.3s">
-                <div class="product-img-wrap h-52">
-                    <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=600&q=80" alt="Genteng Glazur" class="w-full h-full object-cover">
-                </div>
-                <div class="p-6">
-                    <div class="flex items-start justify-between mb-3">
-                        <div><h3 class="font-bold text-lg">Genteng Glazur</h3><p class="text-gray-500 text-sm mt-1">Finishing premium, anti lumut</p></div>
-                        <span class="bg-purple-950/60 text-purple-400 text-xs font-semibold px-3 py-1 rounded-full border border-purple-800/30">Premium</span>
-                    </div>
-                    <div class="flex items-center gap-1 mb-4"><span class="text-yellow-500 text-xs">★★★★★</span><span class="text-gray-500 text-xs ml-1">(5.0)</span></div>
-                    <a href="#" class="flex items-center justify-between text-red-400 text-sm font-semibold group">
-                        <span>Detail Produk</span>
-                        <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                    </a>
-                </div>
-            </div>
+            @endforelse
+        </div>
+        
+        <div class="mt-12 text-center reveal">
+            <a href="{{ route('daftar-genteng') }}" class="btn-glow inline-flex items-center gap-2 text-white font-semibold px-8 py-3.5 rounded-2xl text-sm">
+                Lihat Daftar Genteng Lengkap
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+            </a>
         </div>
     </div>
 </section>
