@@ -12,13 +12,13 @@
     <nav class="flex-1 space-y-1 text-sm">
         <!-- Dashboard -->
         <a href="{{ route('admin.dashboard') }}"
-            class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
+            class="sidebar-link flex items-center gap-4 px-3 py-2 rounded-xl transition-all duration-200 group
             {{ request()->routeIs('admin.dashboard')
                 ? 'active-link'
                 : 'inactive-link' }}">
-            <span class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all
+            <span class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 transition-all
                 {{ request()->routeIs('admin.dashboard') ? 'icon-active' : 'icon-inactive' }}">
-                <i class="fa-solid fa-house text-sm"></i>
+                <i class="fa-solid fa-house text-xs"></i>
             </span>
             <span class="font-medium">Dashboard</span>
             @if(request()->routeIs('admin.dashboard'))
@@ -28,13 +28,13 @@
 
         <!-- Genteng -->
         <a href="{{ route('admin.genteng') }}"
-            class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
+            class="sidebar-link flex items-center gap-4 px-3 py-2 rounded-xl transition-all duration-200 group
             {{ request()->routeIs('admin.genteng')
                 ? 'active-link'
                 : 'inactive-link' }}">
-            <span class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all
+            <span class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 transition-all
                 {{ request()->routeIs('admin.genteng') ? 'icon-active' : 'icon-inactive' }}">
-                <i class="fa-solid fa-layer-group text-sm"></i>
+                <i class="fa-solid fa-layer-group text-xs"></i>
             </span>
             <span class="font-medium">Data Genteng</span>
             @if(request()->routeIs('admin.genteng'))
@@ -44,13 +44,13 @@
 
         <!-- User -->
         <a href="{{ route('admin.user') }}"
-            class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
+            class="sidebar-link flex items-center gap-4 px-3 py-2 rounded-xl transition-all duration-200 group
             {{ request()->routeIs('admin.user')
                 ? 'active-link'
                 : 'inactive-link' }}">
-            <span class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all
+            <span class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 transition-all
                 {{ request()->routeIs('admin.user') ? 'icon-active' : 'icon-inactive' }}">
-                <i class="fa-solid fa-users text-sm"></i>
+                <i class="fa-solid fa-users text-xs"></i>
             </span>
             <span class="font-medium">Manajemen User</span>
             @if(request()->routeIs('admin.user'))
@@ -60,13 +60,13 @@
 
         <!-- Setting -->
         <a href="{{ route('admin.setting') }}"
-            class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group
+            class="sidebar-link flex items-center gap-4 px-3 py-2 rounded-xl transition-all duration-200 group
             {{ request()->routeIs('admin.setting')
                 ? 'active-link'
                 : 'inactive-link' }}">
-            <span class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-all
+            <span class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 transition-all
                 {{ request()->routeIs('admin.setting') ? 'icon-active' : 'icon-inactive' }}">
-                <i class="fa-solid fa-gear text-sm"></i>
+                <i class="fa-solid fa-gear text-xs"></i>
             </span>
             <span class="font-medium">Setting</span>
             @if(request()->routeIs('admin.setting'))
