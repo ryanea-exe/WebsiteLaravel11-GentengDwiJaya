@@ -291,10 +291,16 @@
         document.getElementById('publicDetailNama').textContent = data.nama || '-';
         document.getElementById('publicDetailJenis').textContent = data.jenis || '-';
         document.getElementById('publicDetailHarga').textContent = 'Rp ' + (data.harga ? new Intl.NumberFormat('id-ID').format(data.harga) : '0');
-        document.getElementById('publicDetailStok').textContent = (data.stok ? new Intl.NumberFormat('id-ID').format(data.stok) : '0') + ' pcs';
-        document.getElementById('publicDetailJarakReng').textContent = data.jarak_reng || '-';
-        document.getElementById('publicDetailDimensi').textContent = data.dimensi || '-';
-        document.getElementById('publicDetailIsiPerM2').textContent = data.isi_per_m2 || '-';
+        const formatUnit = (val, unit) => {
+            if (!val || String(val).trim() === '') return '-';
+            const str = String(val).trim();
+            return str.toLowerCase().includes(unit.toLowerCase()) ? str : str + ' ' + unit;
+        };
+
+        document.getElementById('publicDetailStok').textContent = data.stok != null && data.stok !== '' ? new Intl.NumberFormat('id-ID').format(data.stok) + ' pcs' : '-';
+        document.getElementById('publicDetailJarakReng').textContent = formatUnit(data.jarak_reng, 'cm');
+        document.getElementById('publicDetailDimensi').textContent = formatUnit(data.dimensi, 'cm');
+        document.getElementById('publicDetailIsiPerM2').textContent = formatUnit(data.isi_per_m2, 'pcs');
         document.getElementById('publicDetailDeskripsi').textContent = data.deskripsi || 'Tidak ada deskripsi';
         
         const photoImg = document.getElementById('publicDetailFoto');
