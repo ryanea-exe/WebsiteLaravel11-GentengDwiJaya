@@ -61,6 +61,38 @@
                 </div>
             </div>
 
+            {{-- SECTION: Teks Landing Page --}}
+            <div class="rounded-2xl mb-5" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);">
+                <div class="px-5 py-4 flex items-center gap-3" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: rgba(168,85,247,0.15);">
+                        <svg class="w-4 h-4" style="color:#a855f7;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-white">Teks Landing Page</p>
+                        <p class="text-xs" style="color:rgba(107,114,128,0.8);">Atur teks utama (headline) dan deskripsi (subheadline) di Hero Section</p>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="mb-4">
+                        <label class="block text-xs font-semibold mb-2" style="color:rgba(209,213,219,0.9);">Main Headline <span style="color:rgba(107,114,128,0.6); font-weight:400;">(25-35 karakter)</span></label>
+                        <input type="text" name="mainheadline"
+                               value="{{ old('mainheadline', $setting->mainheadline) }}"
+                               placeholder="Contoh: Genteng Kuat, Rumah Aman & Indah"
+                               minlength="25" maxlength="200"
+                               class="setting-input">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold mb-2" style="color:rgba(209,213,219,0.9);">Sub Headline <span style="color:rgba(107,114,128,0.6); font-weight:400;">(150-200 karakter)</span></label>
+                        <textarea name="subheadline" rows="3"
+                                  placeholder="Contoh: Genteng pilihan kualitas premium — tahan cuaca ekstrem..."
+                                  minlength="150" maxlength="200"
+                                  class="setting-input">{{ old('subheadline', $setting->subheadline) }}</textarea>
+                    </div>
+                </div>
+            </div>
+
             {{-- SECTION: Logo --}}
             <div class="rounded-2xl mb-5" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);">
                 <div class="px-5 py-4 flex items-center gap-3" style="border-bottom: 1px solid rgba(255,255,255,0.06);">

@@ -182,6 +182,24 @@
 </head>
 
 <body class="bg-[#0a0a0a] text-gray-200 overflow-hidden">
+    @if(session('success'))
+    <div id="toast-success" class="fixed top-20 right-6 z-[100] flex items-start gap-3 bg-green-950/80 backdrop-blur-lg border border-green-800/50 rounded-2xl px-5 py-4 shadow-xl transition-all duration-500 transform translate-x-0 opacity-100" role="alert">
+        <svg class="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <p class="text-green-300 text-sm font-medium">{{ session('success') }}</p>
+    </div>
+    <script>
+        setTimeout(() => {
+            const toast = document.getElementById('toast-success');
+            if(toast) {
+                toast.classList.remove('translate-x-0', 'opacity-100');
+                toast.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => toast.remove(), 500);
+            }
+        }, 5000);
+    </script>
+    @endif
     <!-- HEADER -->
     @include('components.header')
 

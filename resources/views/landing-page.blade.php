@@ -60,6 +60,25 @@
 </head>
 <body class="bg-[#0a0a0a] text-white overflow-x-hidden">
 
+@if(session('success'))
+<div id="toast-success" class="fixed top-24 right-6 z-[100] flex items-start gap-3 bg-green-950/80 backdrop-blur-lg border border-green-800/50 rounded-2xl px-5 py-4 shadow-xl transition-all duration-500 transform translate-x-0 opacity-100" role="alert">
+    <svg class="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    </svg>
+    <p class="text-green-300 text-sm font-medium">{{ session('success') }}</p>
+</div>
+<script>
+    setTimeout(() => {
+        const toast = document.getElementById('toast-success');
+        if(toast) {
+            toast.classList.remove('translate-x-0', 'opacity-100');
+            toast.classList.add('translate-x-full', 'opacity-0');
+            setTimeout(() => toast.remove(), 500);
+        }
+    }, 5000);
+</script>
+@endif
+
 <!-- NAVBAR -->
 <nav id="navbar" class="fixed top-0 w-full z-50 py-4">
     <div class="container mx-auto px-6 flex items-center justify-between">
@@ -110,13 +129,13 @@
         <div>
             <div class="inline-flex items-center gap-2 bg-red-950/60 border border-red-800/40 rounded-full px-4 py-1.5 mb-8 text-xs font-medium text-red-400 reveal">
                 <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                Produk Unggulan Sejak 2000
+                Genteng Unggulan Sejak Tahun 1998
             </div>
             <h1 class="text-4xl lg:text-6xl font-black leading-tight mb-6 reveal" style="transition-delay:0.1s">
-                Genteng Kuat,<br>Rumah <span class="text-gradient">Aman</span> &amp;<br><span class="text-gradient">Indah</span>
+                {!! $appSetting->mainheadline ?? 'Genteng Kuat,<br>Rumah <span class="text-gradient">Aman</span> &amp;<br><span class="text-gradient">Indah</span>' !!}
             </h1>
             <p class="text-gray-400 text-md leading-relaxed max-w-lg mb-10 reveal" style="transition-delay:0.2s">
-                Genteng pilihan kualitas premium — tahan cuaca ekstrem, desain modern, harga bersaing, dan bergaransi. Dipercaya ribuan keluarga di seluruh Indonesia.
+                {{ $appSetting->subheadline ?? 'Genteng pilihan kualitas premium — tahan cuaca ekstrem, desain modern, harga bersaing, dan pastinya bergaransi. Dipercaya ribuan keluarga di seluruh Jawa & Bali.' }}
             </p>
             <div class="flex flex-wrap gap-4 mb-12 reveal" style="transition-delay:0.3s">
                 <a href="#produk" class="btn-glow inline-flex items-center gap-2 text-white font-semibold px-7 py-3.5 rounded-2xl text-sm">
@@ -130,9 +149,9 @@
             <div class="flex gap-8 reveal" style="transition-delay:0.4s">
                 <div><p class="text-2xl font-black text-gradient">25+</p><p class="text-xs text-gray-500 mt-1">Tahun Pengalaman</p></div>
                 <div class="w-px bg-white/10"></div>
-                <div><p class="text-2xl font-black text-gradient">10K+</p><p class="text-xs text-gray-500 mt-1">Pelanggan Puas</p></div>
+                <div><p class="text-2xl font-black text-gradient">1000+</p><p class="text-xs text-gray-500 mt-1">Pelanggan Puas</p></div>
                 <div class="w-px bg-white/10"></div>
-                <div><p class="text-2xl font-black text-gradient">50+</p><p class="text-xs text-gray-500 mt-1">Jenis Produk</p></div>
+                <div><p class="text-2xl font-black text-gradient">20+</p><p class="text-xs text-gray-500 mt-1">Jenis Produk</p></div>
             </div>
         </div>
         <div class="relative flex justify-center items-center min-h-[480px]">
@@ -225,7 +244,7 @@
             </div>
             <p class="text-gray-500 max-w-xs text-sm md:text-right">Temukan genteng yang tepat untuk hunian impian Anda dari koleksi lengkap kami.</p>
         </div>
-        <div class="grid md:grid-cols-3 gap-8">
+        <div class="grid md:grid-cols-4 gap-8">
             @forelse($genteng as $index => $item)
             <div class="glass rounded-3xl overflow-hidden card-hover reveal" style="transition-delay:{{ 0.1 * ($index + 1) }}s">
                 <div class="product-img-wrap h-52">
@@ -289,8 +308,8 @@
     <div class="container mx-auto px-6 relative z-10">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div class="reveal"><p class="text-5xl font-black text-white counter" data-target="25">0</p><p class="text-white/70 mt-2 text-sm font-medium">Tahun Berdiri</p></div>
-            <div class="reveal" style="transition-delay:0.1s"><p class="text-5xl font-black text-white counter" data-target="10000">0</p><p class="text-white/70 mt-2 text-sm font-medium">Pelanggan Puas</p></div>
-            <div class="reveal" style="transition-delay:0.2s"><p class="text-5xl font-black text-white counter" data-target="50">0</p><p class="text-white/70 mt-2 text-sm font-medium">Jenis Produk</p></div>
+            <div class="reveal" style="transition-delay:0.1s"><p class="text-5xl font-black text-white counter" data-target="1000">0</p><p class="text-white/70 mt-2 text-sm font-medium">Pelanggan Puas</p></div>
+            <div class="reveal" style="transition-delay:0.2s"><p class="text-5xl font-black text-white counter" data-target="20">0</p><p class="text-white/70 mt-2 text-sm font-medium">Jenis Produk</p></div>
             <div class="reveal" style="transition-delay:0.3s"><p class="text-5xl font-black text-white counter" data-target="99">0</p><p class="text-white/70 mt-2 text-sm font-medium">% Kepuasan</p></div>
         </div>
     </div>
@@ -355,23 +374,23 @@
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center flex-shrink-0">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     </div>
-                    <div><p class="font-semibold text-white text-sm mb-1">Alamat</p><p class="text-gray-400 text-sm">Jl. Genteng Raya No. 10,<br>Ponorogo, Jawa Timur</p></div>
+                    <div><p class="font-semibold text-white text-sm mb-1">Alamat</p><p class="text-gray-400 text-sm">Jl. Ahmad Yani, RT 3 RW 2<br>Bedingin Sambit Ponorogo</p></div>
                 </div>
                 <div class="glass rounded-2xl p-5 flex gap-4 items-start card-hover">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center flex-shrink-0">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-                    <div><p class="font-semibold text-white text-sm mb-1">Jam Operasional</p><p class="text-gray-400 text-sm">Senin–Sabtu: 08.00–17.00<br>Minggu: 09.00–14.00</p></div>
+                    <div><p class="font-semibold text-white text-sm mb-1">Jam Operasional</p><p class="text-gray-400 text-sm">Buka 24 Jam<br>Setiap Hari</p></div>
                 </div>
                 <div class="glass rounded-2xl p-5 flex gap-4 items-start card-hover">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center flex-shrink-0">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                     </div>
-                    <div><p class="font-semibold text-white text-sm mb-1">Kontak</p><p class="text-gray-400 text-sm">+62 812-3456-7890<br>info@gentengdwijaya.com</p></div>
+                    <div><p class="font-semibold text-white text-sm mb-1">Kontak</p><p class="text-gray-400 text-sm">+62 852-3543-0936<br>+62 857-3210-6401</p></div>
                 </div>
             </div>
             <div class="lg:col-span-2 reveal glass rounded-3xl overflow-hidden" style="height: 360px; transition-delay:0.2s">
-                <iframe src="https://maps.google.com/maps?q=ponorogo&t=&z=13&ie=UTF8&iwloc=&output=embed" class="w-full h-full border-0" loading="lazy" title="Lokasi {{ $appSetting->app_name }}"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4002.6536453575686!2d111.48838777506573!3d-7.977684092047476!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e790be447d2027d%3A0x8d2227b20e3323f9!2sPABRIK%20GENTENG%20DWIJAYA%20PONOROGO!5e1!3m2!1sid!2sid!4v1785883810528!5m2!1sid!2sid" class="w-full h-full border-0" loading="lazy" title="Lokasi {{ $appSetting->app_name }}"></iframe>
             </div>
         </div>
     </div>
@@ -415,7 +434,7 @@
                     @php $fpParts = explode(' ', $appSetting->app_name, 2); @endphp
                     <span class="text-lg font-bold">{{ $fpParts[0] }} @if(isset($fpParts[1]))<span class="text-gradient">{{ $fpParts[1] }}</span>@endif</span>
                 </div>
-                <p class="text-gray-600 text-sm leading-relaxed">Produsen genteng berkualitas tinggi sejak tahun 2000. Melayani seluruh wilayah Indonesia.</p>
+                <p class="text-gray-600 text-sm leading-relaxed">Produsen genteng berkualitas tinggi sejak tahun 1998. Melayani seluruh wilayah Jawa & Bali.</p>
             </div>
             <div>
                 <p class="font-semibold text-white mb-4 text-sm">Navigasi</p>

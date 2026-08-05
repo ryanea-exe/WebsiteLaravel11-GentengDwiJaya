@@ -18,8 +18,10 @@ class SettingController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'app_name' => 'required|string|max:100',
-            'app_logo' => 'nullable|image|mimes:jpg,jpeg,png,svg,webp|max:2048',
+            'app_name'     => 'required|string|max:100',
+            'app_logo'     => 'nullable|image|mimes:jpg,jpeg,png,svg,webp|max:2048',
+            'mainheadline' => 'nullable|string|min:25|max:35',
+            'subheadline'  => 'nullable|string|min:150|max:200',
         ]);
 
         $setting = Setting::get();
@@ -38,7 +40,9 @@ class SettingController extends Controller
             $setting->app_logo = 'uploads/setting/' . $filename;
         }
 
-        $setting->app_name = $request->app_name;
+        $setting->app_name     = $request->app_name;
+        $setting->mainheadline = $request->mainheadline;
+        $setting->subheadline  = $request->subheadline;
         $setting->save();
 
         return back()->with('success', 'Pengaturan berhasil disimpan!');

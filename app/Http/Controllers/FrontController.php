@@ -9,8 +9,8 @@ class FrontController extends Controller
 {
     public function index()
     {
-        // Ambil 6 genteng terbaru atau acak
-        $genteng = Genteng::latest()->limit(6)->get();
+        // Ambil 4 genteng terbaru atau acak
+        $genteng = Genteng::latest()->limit(4)->get();
         return view('landing-page', compact('genteng'));
     }
 
