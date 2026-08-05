@@ -20,7 +20,7 @@ class SettingController extends Controller
         $request->validate([
             'app_name'     => 'required|string|max:100',
             'app_logo'     => 'nullable|image|mimes:jpg,jpeg,png,svg,webp|max:2048',
-            'mainheadline' => 'nullable|string|min:25|max:35',
+            'mainheadline' => 'nullable|string|min:25|max:200',
             'subheadline'  => 'nullable|string|min:150|max:200',
         ]);
 

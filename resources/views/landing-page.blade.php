@@ -167,7 +167,7 @@
             <div class="absolute bottom-8 -right-4 glass rounded-2xl px-4 py-3 z-20 shadow-xl" style="animation: floatBadge 4s ease-in-out 2s infinite;">
                 <div class="flex items-center gap-2">
                     <span class="text-2xl">⭐</span>
-                    <div><p class="font-bold text-white text-xs">Rating 4.9/5</p><p class="text-gray-400 text-xs">Dari 2.000+ ulasan</p></div>
+                    <div><p class="font-bold text-white text-xs">Rating 4.9/5</p><p class="text-gray-400 text-xs">Dari 200+ ulasan</p></div>
                 </div>
             </div>
             <img src="https://cdn-icons-png.flaticon.com/512/619/619153.png" alt="Ilustrasi Rumah" class="relative z-10 w-[280px] lg:w-[340px] float-img" style="filter: drop-shadow(0 0 30px rgba(225,29,72,0.5));">
