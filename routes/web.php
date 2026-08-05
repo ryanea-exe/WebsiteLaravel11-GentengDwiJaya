@@ -50,6 +50,8 @@ Route::middleware(['auth.login'])->prefix('admin')->group(function () {
         ->name('admin.genteng.store');
     Route::post('/genteng/update/{id}', [GentengController::class, 'update'])
         ->name('admin.genteng.update');
+    Route::post('/genteng/toggle-unggulan/{id}', [GentengController::class, 'toggleUnggulan'])
+        ->name('admin.genteng.toggle-unggulan');
     Route::get('/genteng/delete/{id}', [GentengController::class, 'destroy'])
         ->name('admin.genteng.delete');
     Route::get('/genteng/delete-foto/{id}', [GentengController::class, 'deleteFoto'])

@@ -14,6 +14,7 @@ class Genteng extends Model
         'harga',
         'stok',
         'deskripsi',
-        'foto'
+        'foto',
+        'is_unggulan',
     ];
 }

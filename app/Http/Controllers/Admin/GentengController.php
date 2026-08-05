@@ -90,4 +90,33 @@ class GentengController extends Controller
         $genteng->delete();
         return back()->with('success', 'Data genteng berhasil dihapus');
     }
+
+    public function toggleUnggulan($id)
+    {
+        $genteng = Genteng::findOrFail($id);
+        
+        if (!$genteng->is_unggulan) {
+            // Check if there are already 4
+            $count = Genteng::where('is_unggulan', true)->count();
+            if ($count >= 4) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Maksimal 4 genteng yang dapat dijadikan produk unggulan. Jika ingin memasukkan yang baru, hapus salah satu terlebih dahulu.'
+                ], 400);
+            }
+            $genteng->update(['is_unggulan' => true]);
+            return response()->json([
+                'success' => true,
+                'is_unggulan' => true,
+                'message' => 'Genteng berhasil ditambahkan ke produk unggulan'
+            ]);
+        } else {
+            $genteng->update(['is_unggulan' => false]);
+            return response()->json([
+                'success' => true,
+                'is_unggulan' => false,
+                'message' => 'Genteng dihapus dari produk unggulan'
+            ]);
+        }
+    }
 }

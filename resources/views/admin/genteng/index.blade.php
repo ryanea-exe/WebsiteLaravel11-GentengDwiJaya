@@ -37,6 +37,17 @@
 </div>
 @endif
 
+@if(session('error'))
+<div id="flash-error" class="flex items-center gap-3 rounded-2xl px-4 py-3 mb-6 text-sm"
+     style="background: rgba(225,29,72,0.12); border: 1px solid rgba(225,29,72,0.25); color: #f87171;">
+    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    </svg>
+    {{ session('error') }}
+    <button onclick="document.getElementById('flash-error').remove()" class="ml-auto opacity-60 hover:opacity-100 transition">✕</button>
+</div>
+@endif
+
 {{-- ===== TABLE CARD ===== --}}
 <div class="rounded-2xl overflow-hidden" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);">
     <div class="px-5 py-4 flex items-center justify-between" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
@@ -64,6 +75,7 @@
                     <th class="p-3 text-left">Harga</th>
                     <th class="p-3 text-left">Stok</th>
                     <th class="p-3 text-left">Deskripsi</th>
+                    <th class="p-3 text-center">Unggulan</th>
                     <th class="p-3 text-center">Aksi</th>
                 </tr>
             </thead>
@@ -126,6 +138,13 @@
                         <span class="text-xs" style="color:rgba(156,163,175,0.75);">
                             {{ $d->deskripsi ? Str::limit($d->deskripsi, 40) : '-' }}
                         </span>
+                    </td>
+                    <td class="px-3 py-3 text-center">
+                        <button type="button" onclick="toggleUnggulan({{ $d->id }}, this)" class="transition-transform hover:scale-110 focus:outline-none" title="{{ $d->is_unggulan ? 'Hapus dari Unggulan' : 'Jadikan Unggulan' }}">
+                            <svg class="w-6 h-6 mx-auto {{ $d->is_unggulan ? 'text-yellow-400' : 'text-gray-500' }} star-icon" fill="{{ $d->is_unggulan ? 'currentColor' : 'none' }}" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                            </svg>
+                        </button>
                     </td>
                     <td class="px-3 py-3">
                         <div class="flex items-center justify-center gap-2">
@@ -579,10 +598,94 @@ select.form-input option { background: #1a1a1a; color: white; }
         modalOpen('deleteModal');
     }
 
+    /* ---- Toggle Unggulan ---- */
+    function toggleUnggulan(id, btnElement) {
+        // Find icon
+        const icon = btnElement.querySelector('.star-icon');
+        
+        fetch(`/admin/genteng/toggle-unggulan/${id}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                // Update icon color
+                if (data.is_unggulan) {
+                    icon.classList.remove('text-gray-500');
+                    icon.classList.add('text-yellow-400');
+                    icon.setAttribute('fill', 'currentColor');
+                    btnElement.setAttribute('title', 'Hapus dari Unggulan');
+                } else {
+                    icon.classList.remove('text-yellow-400');
+                    icon.classList.add('text-gray-500');
+                    icon.setAttribute('fill', 'none');
+                    btnElement.setAttribute('title', 'Jadikan Unggulan');
+                }
+                showFlash(data.message, 'success');
+            } else {
+                showFlash(data.message || data.error, 'error');
+            }
+        })
+        .catch(err => {
+            showFlash('Terjadi kesalahan pada server.', 'error');
+        });
+    }
+
+    function showFlash(message, type) {
+        // Remove existing flash message if any
+        const existingError = document.getElementById('flash-error');
+        if (existingError) existingError.remove();
+        const existingSuccess = document.getElementById('flash-msg');
+        if (existingSuccess) existingSuccess.remove();
+
+        const flashDiv = document.createElement('div');
+        flashDiv.id = type === 'error' ? 'flash-error' : 'flash-msg';
+        flashDiv.className = `flex items-center gap-3 rounded-2xl px-4 py-3 mb-6 text-sm flash-dynamic`;
+        
+        if (type === 'error') {
+            flashDiv.style = "background: rgba(225,29,72,0.12); border: 1px solid rgba(225,29,72,0.25); color: #f87171;";
+            flashDiv.innerHTML = `
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                ${message}
+                <button onclick="this.parentElement.remove()" class="ml-auto opacity-60 hover:opacity-100 transition">✕</button>
+            `;
+        } else {
+            flashDiv.style = "background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.25); color: #4ade80;";
+            flashDiv.innerHTML = `
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                ${message}
+                <button onclick="this.parentElement.remove()" class="ml-auto opacity-60 hover:opacity-100 transition">✕</button>
+            `;
+        }
+        
+        // Insert at the top of the table card
+        const tableCard = document.querySelector('.overflow-x-auto').parentElement;
+        tableCard.parentNode.insertBefore(flashDiv, tableCard);
+
+        setTimeout(() => {
+            if (document.body.contains(flashDiv)) {
+                flashDiv.style.transition = 'opacity 0.5s';
+                flashDiv.style.opacity = '0';
+                setTimeout(() => flashDiv.remove(), 500);
+            }
+        }, 5000);
+    }
+
     /* Flash auto-hide */
     setTimeout(function(){
         const el = document.getElementById('flash-msg');
         if (el) { el.style.transition='opacity 0.5s'; el.style.opacity='0'; setTimeout(()=>el.remove(),500); }
+        const err = document.getElementById('flash-error');
+        if (err) { err.style.transition='opacity 0.5s'; err.style.opacity='0'; setTimeout(()=>err.remove(),500); }
     }, 4000);
 
     /* ---- Foto Tambah ---- */
