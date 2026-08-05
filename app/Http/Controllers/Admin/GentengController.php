@@ -33,6 +33,9 @@ class GentengController extends Controller
             'harga'     => $request->harga,
             'stok'      => $request->stok,
             'deskripsi' => $request->deskripsi,
+            'jarak_reng' => $request->jarak_reng,
+            'dimensi'    => $request->dimensi,
+            'isi_per_m2' => $request->isi_per_m2,
             'foto'      => $foto,
         ]);
 
@@ -64,6 +67,9 @@ class GentengController extends Controller
             'harga'     => $request->harga,
             'stok'      => $request->stok,
             'deskripsi' => $request->deskripsi,
+            'jarak_reng' => $request->jarak_reng,
+            'dimensi'    => $request->dimensi,
+            'isi_per_m2' => $request->isi_per_m2,
             'foto'      => $foto,
         ]);
 

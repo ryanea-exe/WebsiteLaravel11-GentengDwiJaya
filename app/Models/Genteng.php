@@ -14,6 +14,9 @@ class Genteng extends Model
         'harga',
         'stok',
         'deskripsi',
+        'jarak_reng',
+        'dimensi',
+        'isi_per_m2',
         'foto',
         'is_unggulan',
     ];

@@ -74,7 +74,6 @@
                     <th class="p-3 text-left">Jenis</th>
                     <th class="p-3 text-left">Harga</th>
                     <th class="p-3 text-left">Stok</th>
-                    <th class="p-3 text-left">Deskripsi</th>
                     <th class="p-3 text-center">Unggulan</th>
                     <th class="p-3 text-center">Aksi</th>
                 </tr>
@@ -132,12 +131,7 @@
                         <span class="font-semibold" style="{{ $stokClass }}">
                             {{ number_format($d->stok) }}
                         </span>
-                        <span class="text-xs ml-1" style="color:rgba(107,114,128,0.6);">lbr</span>
-                    </td>
-                    <td class="px-3 py-3">
-                        <span class="text-xs" style="color:rgba(156,163,175,0.75);">
-                            {{ $d->deskripsi ? Str::limit($d->deskripsi, 40) : '-' }}
-                        </span>
+                        <span class="text-xs ml-1" style="color:rgba(107,114,128,0.6);">pcs</span>
                     </td>
                     <td class="px-3 py-3 text-center">
                         <button type="button" onclick="toggleUnggulan({{ $d->id }}, this)" class="transition-transform hover:scale-110 focus:outline-none" title="{{ $d->is_unggulan ? 'Hapus dari Unggulan' : 'Jadikan Unggulan' }}">
@@ -148,6 +142,17 @@
                     </td>
                     <td class="px-3 py-3">
                         <div class="flex items-center justify-center gap-2">
+                            <button onclick='openDetailModal(@json($d))'
+                                title="Detail"
+                                class="w-8 h-8 flex items-center justify-center rounded-lg transition-all"
+                                style="background:rgba(59,130,246,0.15); color:#60a5fa; border:1px solid rgba(59,130,246,0.25);"
+                                onmouseover="this.style.background='rgba(59,130,246,0.3)'"
+                                onmouseout="this.style.background='rgba(59,130,246,0.15)'">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                            </button>
                             <button onclick='openEditModal(@json($d))'
                                 title="Edit"
                                 class="w-8 h-8 flex items-center justify-center rounded-lg transition-all"
@@ -227,6 +232,18 @@
                 <div class="form-group">
                     <label class="form-label">Stok (lembar)</label>
                     <input type="number" name="stok" placeholder="cth. 1000" class="form-input" min="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Jarak Antar Reng (cm)</label>
+                    <input type="text" name="jarak_reng" placeholder="cth. 23" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Dimensi P x L (cm)</label>
+                    <input type="text" name="dimensi" placeholder="cth. 30 x 20" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Isi per m²</label>
+                    <input type="text" name="isi_per_m2" placeholder="cth. 25 pcs" class="form-input">
                 </div>
                 <div class="form-group col-span-2">
                     <label class="form-label">Deskripsi</label>
@@ -315,8 +332,20 @@
                     <input type="number" name="harga" id="editHarga" class="form-input" min="0">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Stok (lembar)</label>
+                    <label class="form-label">Stok (pcs)</label>
                     <input type="number" name="stok" id="editStok" class="form-input" min="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Jarak Antar Reng (cm)</label>
+                    <input type="text" name="jarak_reng" id="editJarakReng" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Dimensi P x L (cm)</label>
+                    <input type="text" name="dimensi" id="editDimensi" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Isi per m²</label>
+                    <input type="text" name="isi_per_m2" id="editIsiPerM2" class="form-input">
                 </div>
                 <div class="form-group col-span-2">
                     <label class="form-label">Deskripsi</label>
@@ -417,6 +446,75 @@
     </div>
 </div>
 
+{{-- ===== MODAL DETAIL ===== --}}
+<div id="detailModal" class="modal-overlay" onclick="handleOverlayClick(event, 'detailModal')">
+    <div class="modal-box">
+        <div class="modal-header">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center"
+                     style="background:linear-gradient(135deg,#3b82f6,#2563eb); box-shadow:0 0 14px rgba(59,130,246,0.35);">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-base font-bold text-white">Detail Genteng</h2>
+                    <p class="text-xs" style="color:rgba(107,114,128,0.8);">Informasi lengkap produk genteng</p>
+                </div>
+            </div>
+            <button onclick="modalClose('detailModal')" class="modal-close-btn">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body form-grid">
+            <div class="form-group col-span-2">
+                <label class="form-label">Nama Produk</label>
+                <div id="detailNama" class="text-white text-sm bg-white/5 px-3 py-2 rounded-lg border border-white/10 min-h-[38px]"></div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Jenis Genteng</label>
+                <div id="detailJenis" class="text-white text-sm bg-white/5 px-3 py-2 rounded-lg border border-white/10 min-h-[38px]"></div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Harga (Rp)</label>
+                <div id="detailHarga" class="text-white text-sm bg-white/5 px-3 py-2 rounded-lg border border-white/10 min-h-[38px]"></div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Stok (pcs)</label>
+                <div id="detailStok" class="text-white text-sm bg-white/5 px-3 py-2 rounded-lg border border-white/10 min-h-[38px]"></div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Jarak Antar Reng (cm)</label>
+                <div id="detailJarakReng" class="text-white text-sm bg-white/5 px-3 py-2 rounded-lg border border-white/10 min-h-[38px]"></div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Dimensi P x L (cm)</label>
+                <div id="detailDimensi" class="text-white text-sm bg-white/5 px-3 py-2 rounded-lg border border-white/10 min-h-[38px]"></div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Isi per m²</label>
+                <div id="detailIsiPerM2" class="text-white text-sm bg-white/5 px-3 py-2 rounded-lg border border-white/10 min-h-[38px]"></div>
+            </div>
+            <div class="form-group col-span-2">
+                <label class="form-label">Deskripsi</label>
+                <div id="detailDeskripsi" class="text-white text-sm bg-white/5 px-3 py-2 rounded-lg border border-white/10 min-h-[80px]"></div>
+            </div>
+            <div class="form-group col-span-2">
+                <label class="form-label">Foto Genteng</label>
+                <div id="detailFotoWrap" class="hidden mt-2">
+                    <img id="detailFoto" src="" alt="Foto Genteng" class="rounded-xl border border-white/10 max-w-full h-auto max-h-64 object-contain">
+                </div>
+                <div id="detailFotoNone" class="hidden mt-2 w-32 h-32 flex items-center justify-center text-4xl font-bold text-white tracking-widest rounded-xl" style="background: linear-gradient(135deg,rgba(225,29,72,0.6),rgba(159,18,57,0.9));"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button onclick="modalClose('detailModal')" class="btn-secondary">Tutup</button>
+        </div>
+    </div>
+</div>
 
 {{-- ===== STYLES ===== --}}
 <style>
@@ -557,9 +655,49 @@ select.form-input option { background: #1a1a1a; color: white; }
     /* Close on ESC */
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            ['tambahModal','editModal','deleteModal'].forEach(id => modalClose(id));
+            ['tambahModal','editModal','detailModal','deleteModal'].forEach(id => modalClose(id));
         }
     });
+
+    /* ---- Detail modal ---- */
+    function openDetailModal(data) {
+        document.getElementById('detailNama').textContent = data.nama || '-';
+        document.getElementById('detailJenis').textContent = data.jenis || '-';
+        document.getElementById('detailHarga').textContent = 'Rp ' + (data.harga ? new Intl.NumberFormat('id-ID').format(data.harga) : '0');
+        document.getElementById('detailStok').textContent = (data.stok ? new Intl.NumberFormat('id-ID').format(data.stok) : '0') + ' pcs';
+        document.getElementById('detailJarakReng').textContent = data.jarak_reng || '-';
+        document.getElementById('detailDimensi').textContent = data.dimensi || '-';
+        document.getElementById('detailIsiPerM2').textContent = data.isi_per_m2 || '-';
+        document.getElementById('detailDeskripsi').textContent = data.deskripsi || 'Tidak ada deskripsi';
+        
+        const photoWrap = document.getElementById('detailFotoWrap');
+        const photoImg = document.getElementById('detailFoto');
+        const photoNone = document.getElementById('detailFotoNone');
+        
+        if (data.foto) {
+            photoImg.src = '/uploads/genteng/' + data.foto;
+            photoWrap.classList.remove('hidden');
+            photoNone.classList.add('hidden');
+        } else {
+            photoImg.src = '';
+            photoWrap.classList.add('hidden');
+            
+            const words = (data.nama || '').trim().split(' ');
+            let inisial = '';
+            if (words.length >= 2) {
+                inisial = (words[0].substring(0, 1) + words[1].substring(0, 1)).toUpperCase();
+            } else if (words.length === 1 && words[0] !== '') {
+                inisial = words[0].substring(0, 2).toUpperCase();
+            } else {
+                inisial = 'GT';
+            }
+            photoNone.textContent = inisial;
+            
+            photoNone.classList.remove('hidden');
+        }
+        
+        modalOpen('detailModal');
+    }
 
     /* ---- Edit modal ---- */
     function openEditModal(data) {
@@ -568,6 +706,9 @@ select.form-input option { background: #1a1a1a; color: white; }
         document.getElementById('editHarga').value     = data.harga     || '';
         document.getElementById('editStok').value      = data.stok      || '';
         document.getElementById('editDeskripsi').value = data.deskripsi || '';
+        document.getElementById('editJarakReng').value = data.jarak_reng || '';
+        document.getElementById('editDimensi').value   = data.dimensi || '';
+        document.getElementById('editIsiPerM2').value  = data.isi_per_m2 || '';
         document.getElementById('editForm').action     = '/admin/genteng/update/' + data.id;
 
         // Reset upload area

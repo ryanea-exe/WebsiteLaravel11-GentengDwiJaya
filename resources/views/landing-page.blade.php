@@ -99,6 +99,7 @@
             <a href="#produk"     class="hover:text-red-400 transition relative group">Produk<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300"></span></a>
             <a href="#stats"      class="hover:text-red-400 transition relative group">Statistik<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300"></span></a>
             <a href="#lokasi"     class="hover:text-red-400 transition relative group">Lokasi<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300"></span></a>
+            <a href="#cta"        class="hover:text-red-400 transition relative group">Kontak<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300"></span></a>
         </div>
         <!-- <div class="flex items-center gap-4"> -->
             <!-- <a href="/login" class="btn-glow hidden md:inline-flex items-center gap-2 text-white text-sm font-semibold px-5 py-2.5 rounded-xl">Login</a> -->
@@ -116,6 +117,7 @@
             <a href="#produk"     class="text-gray-300 hover:text-red-400 transition">Produk</a>
             <a href="#stats"      class="text-gray-300 hover:text-red-400 transition">Statistik</a>
             <a href="#lokasi"     class="text-gray-300 hover:text-red-400 transition">Lokasi</a>
+            <a href="#cta"        class="text-gray-300 hover:text-red-400 transition">Kontak</a>
             <!-- <a href="/login" class="btn-glow text-center text-white font-semibold py-2.5 rounded-xl">Login</a> -->
         </div>
     </div>
@@ -240,7 +242,7 @@
         <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-16 reveal gap-4">
             <div>
                 <span class="text-red-500 text-xs font-semibold uppercase tracking-widest">Koleksi Kami</span>
-                <h2 class="text-4xl lg:text-5xl font-black mt-3">Produk <span class="text-gradient">Unggulan</span></h2>
+                <h2 class="text-4xl lg:text-5xl font-black mt-3">Produk Genteng <span class="text-gradient">Unggulan</span></h2>
             </div>
             <p class="text-gray-500 max-w-xs text-sm md:text-right">Berikut adalah 4 produk genteng unggulan dan favorit pilihan pelanggan kami.</p>
         </div>
@@ -276,12 +278,12 @@
                     <div class="mb-4">
                         <p class="text-gray-400 text-xs line-clamp-2 min-h-[32px]">{{ $item->deskripsi ?? 'Tidak ada deskripsi' }}</p>
                     </div>
-                    <a href="#" class="flex items-center justify-between text-red-400 text-sm font-semibold group mt-4">
+                    <button type="button" onclick='openPublicDetailModal(@json($item))' class="w-full flex items-center justify-between text-red-400 text-sm font-semibold group mt-4">
                         <span>Detail Produk</span>
                         <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
-                    </a>
+                    </button>
                 </div>
             </div>
             @empty
@@ -374,7 +376,7 @@
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center flex-shrink-0">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     </div>
-                    <div><p class="font-semibold text-white text-sm mb-1">Alamat</p><p class="text-gray-400 text-sm">Jl. Ahmad Yani, RT 3 RW 2<br>Bedingin Sambit Ponorogo</p></div>
+                    <div><p class="font-semibold text-white text-sm mb-1">Alamat</p><p class="text-gray-400 text-sm">Jl. Ahmad Yani,<br>Bedingin Sambit Ponorogo</p></div>
                 </div>
                 <div class="glass rounded-2xl p-5 flex gap-4 items-start card-hover">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center flex-shrink-0">
@@ -397,7 +399,7 @@
 </section>
 
 <!-- CTA -->
-<section class="py-24 bg-[#0f0f0f] relative overflow-hidden">
+<section id="cta"class="py-24 bg-[#0f0f0f] relative overflow-hidden">
     <div class="absolute inset-0 pointer-events-none">
         <div class="absolute left-1/4 top-0 w-96 h-96 bg-red-700/20 rounded-full blur-3xl"></div>
         <div class="absolute right-1/4 bottom-0 w-64 h-64 bg-orange-600/10 rounded-full blur-3xl"></div>
@@ -519,6 +521,129 @@
             container.appendChild(dot);
         }
     }
+</script>
+{{-- ===== MODAL DETAIL PRODUK ===== --}}
+<div id="publicDetailModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm opacity-0 invisible transition-all duration-300">
+    <div class="bg-[#101010] border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300 mx-4" id="publicDetailModalBox">
+        <div class="flex items-center justify-between p-6 border-b border-white/10 sticky top-0 bg-[#101010] z-10">
+            <h3 class="text-xl font-bold text-white">Detail Produk</h3>
+            <button type="button" onclick="closePublicDetailModal()" class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-red-500/20 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div class="p-6">
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Left: Photo -->
+                <div class="w-full md:w-1/2">
+                    <div class="w-full aspect-square rounded-xl overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center relative">
+                        <img id="publicDetailFoto" src="" alt="" class="w-full h-full object-cover hidden">
+                        <div id="publicDetailFotoNone" class="w-full h-full flex items-center justify-center text-8xl font-bold text-white tracking-widest hidden" style="background: linear-gradient(135deg,rgba(225,29,72,0.6),rgba(159,18,57,0.9));"></div>
+                    </div>
+                </div>
+                <!-- Right: Specs & Desc -->
+                <div class="w-full md:w-1/2 flex flex-col">
+                    <div class="mb-4">
+                        <span id="publicDetailJenis" class="text-xs font-semibold px-3 py-1 rounded-full bg-white/10 text-gray-300 inline-block mb-2"></span>
+                        <h2 id="publicDetailNama" class="text-3xl font-black text-white"></h2>
+                    </div>
+                    <div class="mb-6">
+                        <p class="text-2xl font-bold text-red-500" id="publicDetailHarga"></p>
+                    </div>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-start justify-between border-b border-white/5 pb-2">
+                            <span class="text-gray-400 text-sm">Stok</span>
+                            <span class="text-white font-medium text-sm" id="publicDetailStok"></span>
+                        </div>
+                        <div class="flex items-start justify-between border-b border-white/5 pb-2">
+                            <span class="text-gray-400 text-sm">Jarak Antar Reng</span>
+                            <span class="text-white font-medium text-sm" id="publicDetailJarakReng"></span>
+                        </div>
+                        <div class="flex items-start justify-between border-b border-white/5 pb-2">
+                            <span class="text-gray-400 text-sm">Dimensi P x L</span>
+                            <span class="text-white font-medium text-sm" id="publicDetailDimensi"></span>
+                        </div>
+                        <div class="flex items-start justify-between border-b border-white/5 pb-2">
+                            <span class="text-gray-400 text-sm">Isi per m²</span>
+                            <span class="text-white font-medium text-sm" id="publicDetailIsiPerM2"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="text-white font-bold mb-2">Deskripsi Produk</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed" id="publicDetailDeskripsi"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom: WhatsApp Button -->
+            <div class="mt-8 pt-6 border-t border-white/10 flex justify-end">
+                <a id="publicDetailWaLink" href="#" target="_blank" class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl text-white font-bold transition-all bg-[#25D366] hover:bg-[#1ebe57] shadow-[0_0_20px_rgba(37,211,102,0.3)] hover:scale-105">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Pesan Sekarang
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openPublicDetailModal(data) {
+        document.getElementById('publicDetailNama').textContent = data.nama || '-';
+        document.getElementById('publicDetailJenis').textContent = data.jenis || '-';
+        document.getElementById('publicDetailHarga').textContent = 'Rp ' + (data.harga ? new Intl.NumberFormat('id-ID').format(data.harga) : '0');
+        document.getElementById('publicDetailStok').textContent = (data.stok ? new Intl.NumberFormat('id-ID').format(data.stok) : '0') + ' pcs';
+        document.getElementById('publicDetailJarakReng').textContent = data.jarak_reng || '-';
+        document.getElementById('publicDetailDimensi').textContent = data.dimensi || '-';
+        document.getElementById('publicDetailIsiPerM2').textContent = data.isi_per_m2 || '-';
+        document.getElementById('publicDetailDeskripsi').textContent = data.deskripsi || 'Tidak ada deskripsi';
+        
+        const photoImg = document.getElementById('publicDetailFoto');
+        const photoNone = document.getElementById('publicDetailFotoNone');
+        
+        if (data.foto) {
+            photoImg.src = '/uploads/genteng/' + data.foto;
+            photoImg.classList.remove('hidden');
+            photoNone.classList.add('hidden');
+        } else {
+            photoImg.src = '';
+            photoImg.classList.add('hidden');
+            
+            const words = (data.nama || '').trim().split(' ');
+            let inisial = '';
+            if (words.length >= 2) {
+                inisial = (words[0].substring(0, 1) + words[1].substring(0, 1)).toUpperCase();
+            } else if (words.length === 1 && words[0] !== '') {
+                inisial = words[0].substring(0, 2).toUpperCase();
+            } else {
+                inisial = 'GT';
+            }
+            photoNone.textContent = inisial;
+            
+            photoNone.classList.remove('hidden');
+        }
+
+        const textMessage = encodeURIComponent('Halo, saya tertarik dengan produk genteng: ' + data.nama + '. Apakah stoknya masih ada?');
+        document.getElementById('publicDetailWaLink').href = 'https://wa.me/6281234567890?text=' + textMessage;
+
+        const modal = document.getElementById('publicDetailModal');
+        const box = document.getElementById('publicDetailModalBox');
+        modal.classList.remove('opacity-0', 'invisible');
+        box.classList.remove('scale-95');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closePublicDetailModal() {
+        const modal = document.getElementById('publicDetailModal');
+        const box = document.getElementById('publicDetailModalBox');
+        modal.classList.add('opacity-0', 'invisible');
+        box.classList.add('scale-95');
+        document.body.style.overflow = '';
+    }
+
+    document.getElementById('publicDetailModal').addEventListener('click', function(e) {
+        if (e.target === this) closePublicDetailModal();
+    });
 </script>
 </body>
 </html>
