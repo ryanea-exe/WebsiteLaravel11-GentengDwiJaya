@@ -40,7 +40,7 @@ class LoginController extends Controller
             $user->last_login = now();
             $user->save();
 
-            return redirect('/admin/dashboard')->with('success', 'Login berhasil');
+            return redirect('/admin/dashboard')->with('success', 'Login berhasil!');
         }
 
         return back()->with('error', 'Email atau password salah');
@@ -50,6 +50,6 @@ class LoginController extends Controller
     public function logout()
     {
         Session::flush();
-        return redirect('/')->with('success', 'Logout berhasil');
+        return redirect('/')->with('success', 'Logout berhasil!');
     }
 }
