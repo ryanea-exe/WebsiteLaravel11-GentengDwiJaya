@@ -131,7 +131,7 @@
         <div>
             <div class="inline-flex items-center gap-2 bg-red-950/60 border border-red-800/40 rounded-full px-4 py-1.5 mb-8 text-xs font-medium text-red-400 reveal">
                 <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                Genteng Unggulan Sejak Tahun 1998
+                Genteng Unggulan Sejak Tahun 1992
             </div>
             <h1 class="text-4xl lg:text-6xl font-black leading-tight mb-6 reveal" style="transition-delay:0.1s">
                 {!! $appSetting->mainheadline ?? 'Genteng Kuat,<br>Rumah <span class="text-gradient">Aman</span> &amp;<br><span class="text-gradient">Indah</span>' !!}
@@ -157,7 +157,7 @@
             </div>
         </div>
         <div class="relative flex justify-center items-center min-h-[480px]">
-            <div class="blob absolute w-[350px] h-[350px] opacity-80"></div>
+            <!-- <div class="blob absolute w-[350px] h-[350px] opacity-80"></div> -->
             <div class="absolute w-[400px] h-[400px] rounded-full border border-red-500/20 ping-slow"></div>
             <div class="absolute w-[460px] h-[460px] rounded-full border border-red-500/10"></div>
             <!-- <div class="floating-badge absolute -top-4 -left-4 glass rounded-2xl px-4 py-3 z-20 shadow-xl">
@@ -172,7 +172,8 @@
                     <div><p class="font-bold text-white text-xs">Rating 4.9/5</p><p class="text-gray-400 text-xs">Dari 200+ ulasan</p></div>
                 </div>
             </div>
-            <img src="https://cdn-icons-png.flaticon.com/512/619/619153.png" alt="Ilustrasi Rumah" class="relative z-10 w-[280px] lg:w-[340px] float-img" style="filter: drop-shadow(0 0 30px rgba(225,29,72,0.5));">
+            <!-- <img src="https://cdn-icons-png.flaticon.com/512/619/619153.png" alt="Ilustrasi Rumah" class="relative z-10 w-[280px] lg:w-[340px] float-img" style="filter: drop-shadow(0 0 30px rgba(225,29,72,0.5));"> -->
+            <img src="{{ asset('landing-page/hero2.png') }}" alt="Ilustrasi Rumah" class="relative z-10 w-[280px] lg:w-[460px] float-img" style="filter: drop-shadow(0 0 30px rgba(225,29,72,0.5));">
         </div>
     </div>
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-600 text-xs">
