@@ -18,13 +18,14 @@ class DashboardController extends Controller
         $hargaTertinggi = Genteng::max('harga') ?? 0;
         $hargaTerendah  = Genteng::min('harga') ?? 0;
         $totalUser     = User::count();
+        $totalUnggulan = Genteng::where('is_unggulan', true)->count();
 
         // ── Stok kritis (≤ 50) ───────────────────────────
         $stokKritis    = Genteng::where('stok', '<=', 50)->count();
         $produkStokKritis = Genteng::where('stok', '<=', 50)
                             ->orderBy('stok')
                             ->take(5)
-                            ->get(['nama', 'jenis', 'stok', 'harga']);
+                            ->get();
 
         // ── Per jenis ─────────────────────────────────────
         $byJenis = Genteng::selectRaw('jenis, COUNT(*) as total_produk, SUM(stok) as total_stok, AVG(harga) as avg_harga, SUM(harga * stok) as nilai')
@@ -36,14 +37,14 @@ class DashboardController extends Controller
         $produkTerbaru = Genteng::latest()->take(5)->get();
 
         // ── Produk stok terbanyak ────────────────────────
-        $produkTopStok = Genteng::orderByDesc('stok')->take(5)->get(['nama', 'jenis', 'stok', 'harga']);
+        $produkTopStok = Genteng::orderByDesc('stok')->take(5)->get();
 
         // ── Produk harga tertinggi ────────────────────────
-        $produkTopHarga = Genteng::orderByDesc('harga')->take(5)->get(['nama', 'jenis', 'harga', 'stok']);
+        $produkTopHarga = Genteng::orderByDesc('harga')->take(5)->get();
 
         return view('admin.dashboard', compact(
             'totalProduk', 'totalStok', 'totalNilai', 'avgHarga',
-            'hargaTertinggi', 'hargaTerendah', 'totalUser', 'stokKritis',
+            'hargaTertinggi', 'hargaTerendah', 'totalUser', 'totalUnggulan', 'stokKritis',
             'produkStokKritis', 'byJenis', 'produkTerbaru',
             'produkTopStok', 'produkTopHarga'
         ));

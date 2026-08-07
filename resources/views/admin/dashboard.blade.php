@@ -29,7 +29,7 @@
             <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background: linear-gradient(135deg,#9f1239,#e11d48); box-shadow: 0 0 16px rgba(225,29,72,0.35);">
                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
             </div>
-            <p class="text-2xl font-black text-white">{{ number_format($totalProduk) }}</p>
+            <p class="text-2xl font-black text-white">{{ number_format($totalProduk, 0, ',', '.') }}</p>
             <p class="text-xs mt-1 font-medium" style="color: rgba(156,163,175,0.8);">Jenis Produk</p>
             <div class="flex items-center gap-1 mt-2">
                 <span class="text-xs px-2 py-0.5 rounded-full" style="background: rgba(225,29,72,0.15); color: #f87171;">{{ $byJenis->count() }} kategori</span>
@@ -44,7 +44,7 @@
             <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background: linear-gradient(135deg,#c2410c,#f97316); box-shadow: 0 0 16px rgba(249,115,22,0.3);">
                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
             </div>
-            <p class="text-2xl font-black text-white">{{ number_format($totalStok) }}</p>
+            <p class="text-2xl font-black text-white">{{ number_format($totalStok, 0, ',', '.') }}</p>
             <p class="text-xs mt-1 font-medium" style="color: rgba(156,163,175,0.8);">Total Stok (lembar)</p>
             <div class="flex items-center gap-1 mt-2">
                 @if($stokKritis > 0)
@@ -63,10 +63,10 @@
             <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-4" style="background: linear-gradient(135deg,#7e22ce,#a855f7); box-shadow: 0 0 16px rgba(168,85,247,0.3);">
                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
-            <p class="text-xl font-black text-white">Rp {{ number_format($totalNilai / 1000000, 1) }}jt</p>
+            <p class="text-xl font-black text-white">Rp {{ number_format($totalNilai / 1000000, 1, ',', '.') }}jt</p>
             <p class="text-xs mt-1 font-medium" style="color: rgba(156,163,175,0.8);">Nilai Inventaris</p>
             <div class="mt-2">
-                <span class="text-xs" style="color: rgba(107,114,128,0.7);">Rp {{ number_format($totalNilai) }}</span>
+                <span class="text-xs" style="color: rgba(107,114,128,0.7);">Rp {{ number_format($totalNilai, 0, ',', '.') }}</span>
             </div>
         </div>
     </div>
@@ -131,7 +131,7 @@
                         <span class="text-xs px-2 py-0.5 rounded-full" style="background: rgba(255,255,255,0.06); color: rgba(156,163,175,0.9);">{{ $j->total_produk }} produk</span>
                     </div>
                     <div class="text-right">
-                        <span class="text-sm font-bold text-white">{{ number_format($j->total_stok) }}</span>
+                        <span class="text-sm font-bold text-white">{{ number_format($j->total_stok, 0, ',', '.') }}</span>
                         <span class="text-xs ml-1" style="color: rgba(107,114,128,0.8);">({{ $pct }}%)</span>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                 </div>
                 <div class="flex items-center justify-between mt-1">
                     <span class="text-xs" style="color: rgba(107,114,128,0.6);">Avg. Rp {{ number_format($j->avg_harga, 0, ',', '.') }}/lembar</span>
-                    <span class="text-xs" style="color: rgba(107,114,128,0.6);">Nilai: Rp {{ number_format($j->nilai / 1000000, 2) }}jt</span>
+                    <span class="text-xs" style="color: rgba(107,114,128,0.6);">Nilai: Rp {{ number_format($j->nilai / 1000000, 2, ',', '.') }}jt</span>
                 </div>
             </div>
             @endforeach
@@ -161,14 +161,14 @@
                         <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs" style="background: rgba(34,197,94,0.15); color: #4ade80;">↑</div>
                         <span class="text-xs" style="color: rgba(156,163,175,0.8);">Tertinggi</span>
                     </div>
-                    <span class="text-sm font-bold text-white">Rp {{ number_format($hargaTertinggi) }}</span>
+                    <span class="text-sm font-bold text-white">Rp {{ number_format($hargaTertinggi, 0, ',', '.') }}</span>
                 </div>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs" style="background: rgba(239,68,68,0.15); color: #f87171;">↓</div>
                         <span class="text-xs" style="color: rgba(156,163,175,0.8);">Terendah</span>
                     </div>
-                    <span class="text-sm font-bold text-white">Rp {{ number_format($hargaTerendah) }}</span>
+                    <span class="text-sm font-bold text-white">Rp {{ number_format($hargaTerendah, 0, ',', '.') }}</span>
                 </div>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
@@ -180,16 +180,30 @@
             </div>
         </div>
 
-        {{-- Pengguna --}}
-        <div class="rounded-2xl p-5" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);">
-            <h3 class="text-sm font-bold text-white mb-4">Pengguna Sistem</h3>
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg,#1d4ed8,#3b82f6); box-shadow: 0 0 14px rgba(59,130,246,0.3);">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <div class="grid grid-cols-2 gap-4">
+            {{-- Pengguna --}}
+            <div class="rounded-2xl p-5" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);">
+                <h3 class="text-xs font-bold text-white mb-3">Administrator</h3>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg,#1d4ed8,#3b82f6); box-shadow: 0 0 14px rgba(59,130,246,0.3);">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    </div>
+                    <div>
+                        <p class="text-xl font-black text-white">{{ $totalUser }}</p>
+                    </div>
                 </div>
-                <div>
-                    <p class="text-2xl font-black text-white">{{ $totalUser }}</p>
-                    <p class="text-xs" style="color: rgba(107,114,128,0.8);">Administrator aktif</p>
+            </div>
+
+            {{-- Unggulan --}}
+            <div class="rounded-2xl p-5" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);">
+                <h3 class="text-xs font-bold text-white mb-3">P. Unggulan</h3>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg,#f59e0b,#fbbf24); box-shadow: 0 0 14px rgba(245,158,11,0.3);">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                    </div>
+                    <div>
+                        <p class="text-xl font-black text-white">{{ $totalUnggulan }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -218,40 +232,6 @@
 {{-- ========== ROW 3: Tabel-tabel ========== --}}
 <div class="grid lg:grid-cols-2 gap-6 mb-6">
 
-    {{-- Produk Terbaru --}}
-    <div class="rounded-2xl overflow-hidden" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);">
-        <div class="flex items-center justify-between px-5 py-4" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-            <h2 class="text-sm font-bold text-white">Produk Terbaru</h2>
-            <a href="{{ route('admin.genteng') }}" class="text-xs px-3 py-1 rounded-lg transition"
-               style="background: rgba(225,29,72,0.12); color: #f87171; border: 1px solid rgba(225,29,72,0.2);"
-               onmouseover="this.style.background='rgba(225,29,72,0.2)'" onmouseout="this.style.background='rgba(225,29,72,0.12)'">
-                Lihat Semua →
-            </a>
-        </div>
-        <div class="divide-y" style="border-color: rgba(255,255,255,0.04);">
-            @forelse($produkTerbaru as $item)
-            <div class="flex items-center justify-between px-5 py-3 hover:bg-white/5 transition">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-xs font-bold text-white"
-                         style="background: linear-gradient(135deg, rgba(225,29,72,0.6), rgba(159,18,57,0.8));">
-                        {{ substr($item->nama, 0, 1) }}
-                    </div>
-                    <div>
-                        <p class="text-sm font-medium text-white leading-tight">{{ Str::limit($item->nama, 28) }}</p>
-                        <p class="text-xs" style="color: rgba(107,114,128,0.8);">{{ $item->jenis }}</p>
-                    </div>
-                </div>
-                <div class="text-right flex-shrink-0">
-                    <p class="text-sm font-bold text-white">Rp {{ number_format($item->harga) }}</p>
-                    <p class="text-xs" style="color: rgba(107,114,128,0.7);">stok: {{ number_format($item->stok) }}</p>
-                </div>
-            </div>
-            @empty
-            <div class="px-5 py-8 text-center text-sm" style="color: rgba(107,114,128,0.6);">Belum ada data produk</div>
-            @endforelse
-        </div>
-    </div>
-
     {{-- Produk Stok Terbanyak --}}
     <div class="rounded-2xl overflow-hidden" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);">
         <div class="flex items-center justify-between px-5 py-4" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
@@ -268,7 +248,7 @@
                         <span class="text-xs font-bold w-5 text-center" style="color: rgba(107,114,128,0.6);">{{ $i+1 }}</span>
                         <span class="text-sm text-white font-medium">{{ Str::limit($item->nama, 22) }}</span>
                     </div>
-                    <span class="text-sm font-bold text-white">{{ number_format($item->stok) }}</span>
+                    <span class="text-sm font-bold text-white">{{ number_format($item->stok, 0, ',', '.') }}</span>
                 </div>
                 <div class="h-1.5 rounded-full ml-7" style="background: rgba(255,255,255,0.06);">
                     <div class="h-1.5 rounded-full" style="width: {{ $pct }}%; background: linear-gradient(90deg, #c2410c, #f97316);"></div>
@@ -279,10 +259,6 @@
             @endforelse
         </div>
     </div>
-</div>
-
-{{-- ========== ROW 4: Harga Tertinggi + Stok Kritis ========== --}}
-<div class="grid lg:grid-cols-2 gap-6">
 
     {{-- Produk Harga Tertinggi --}}
     <div class="rounded-2xl overflow-hidden" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);">
@@ -294,19 +270,83 @@
             @forelse($produkTopHarga as $i => $item)
             <div class="flex items-center justify-between px-5 py-3 hover:bg-white/5 transition">
                 <div class="flex items-center gap-3">
-                    <span class="text-xs font-black w-6 text-center"
+                    <span class="text-xs font-black w-6 text-center flex-shrink-0"
                           style="{{ $i === 0 ? 'color:#f59e0b' : ($i === 1 ? 'color:#9ca3af' : ($i === 2 ? 'color:#b45309' : 'color:rgba(107,114,128,0.5)')) }}">
                         #{{ $i+1 }}
                     </span>
+                    @if($item->foto)
+                    <div class="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0" style="border: 1px solid rgba(255,255,255,0.1);">
+                        <img src="{{ asset('uploads/genteng/'.$item->foto) }}" class="w-full h-full object-cover">
+                    </div>
+                    @else
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-xs font-bold text-white"
+                         style="background: linear-gradient(135deg, rgba(168,85,247,0.6), rgba(126,34,206,0.8));">
+                        {{ substr($item->nama, 0, 1) }}
+                    </div>
+                    @endif
                     <div>
-                        <p class="text-sm font-medium text-white">{{ Str::limit($item->nama, 26) }}</p>
-                        <p class="text-xs" style="color: rgba(107,114,128,0.7);">{{ $item->jenis }} · stok {{ number_format($item->stok) }}</p>
+                        <div class="flex items-center gap-2">
+                            <p class="text-sm font-medium text-white">{{ Str::limit($item->nama, 26) }}</p>
+                            @if($item->is_unggulan)
+                            <span class="text-[10px] px-1.5 py-0.5 rounded bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">★</span>
+                            @endif
+                        </div>
+                        <p class="text-xs mt-0.5" style="color: rgba(107,114,128,0.7);">{{ $item->jenis }} · stok {{ number_format($item->stok, 0, ',', '.') }}</p>
                     </div>
                 </div>
-                <span class="text-sm font-black" style="color: #c084fc;">Rp {{ number_format($item->harga) }}</span>
+                <span class="text-sm font-black flex-shrink-0" style="color: #c084fc;">Rp {{ number_format($item->harga, 0, ',', '.') }}</span>
             </div>
             @empty
             <div class="px-5 py-8 text-center text-sm" style="color: rgba(107,114,128,0.6);">Tidak ada data</div>
+            @endforelse
+        </div>
+    </div>
+</div>
+
+<!-- {{-- ========== ROW 4: Harga Tertinggi + Stok Kritis ========== --}}
+<div class="grid lg:grid-cols-2 gap-6">
+
+    {{-- Produk Terbaru --}}
+    <div class="rounded-2xl overflow-hidden" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);">
+        <div class="flex items-center justify-between px-5 py-4" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+            <h2 class="text-sm font-bold text-white">Produk Terbaru</h2>
+            <a href="{{ route('admin.genteng') }}" class="text-xs px-3 py-1 rounded-lg transition"
+               style="background: rgba(225,29,72,0.12); color: #f87171; border: 1px solid rgba(225,29,72,0.2);"
+               onmouseover="this.style.background='rgba(225,29,72,0.2)'" onmouseout="this.style.background='rgba(225,29,72,0.12)'">
+                Lihat Semua →
+            </a>
+        </div>
+        <div class="divide-y" style="border-color: rgba(255,255,255,0.04);">
+            @forelse($produkTerbaru as $item)
+            <div class="flex items-center justify-between px-5 py-3 hover:bg-white/5 transition">
+                <div class="flex items-center gap-3">
+                    @if($item->foto)
+                    <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0" style="border: 1px solid rgba(255,255,255,0.1);">
+                        <img src="{{ asset('uploads/genteng/'.$item->foto) }}" class="w-full h-full object-cover">
+                    </div>
+                    @else
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-xs font-bold text-white"
+                         style="background: linear-gradient(135deg, rgba(225,29,72,0.6), rgba(159,18,57,0.8));">
+                        {{ substr($item->nama, 0, 1) }}
+                    </div>
+                    @endif
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <p class="text-sm font-medium text-white leading-tight">{{ Str::limit($item->nama, 28) }}</p>
+                            @if($item->is_unggulan)
+                            <span class="text-[10px] px-1.5 py-0.5 rounded bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">★</span>
+                            @endif
+                        </div>
+                        <p class="text-xs mt-0.5" style="color: rgba(107,114,128,0.8);">{{ $item->jenis }} @if($item->dimensi) · {{ $item->dimensi }} @endif</p>
+                    </div>
+                </div>
+                <div class="text-right flex-shrink-0">
+                    <p class="text-sm font-bold text-white">Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
+                    <p class="text-xs" style="color: rgba(107,114,128,0.7);">stok: {{ number_format($item->stok, 0, ',', '.') }}</p>
+                </div>
+            </div>
+            @empty
+            <div class="px-5 py-8 text-center text-sm" style="color: rgba(107,114,128,0.6);">Belum ada data produk</div>
             @endforelse
         </div>
     </div>
@@ -326,14 +366,14 @@
                         <span class="w-2 h-2 rounded-full" style="background: {{ $color2[0] }};"></span>
                         <span class="text-xs font-semibold text-white">{{ $j->jenis }}</span>
                     </div>
-                    <p class="text-lg font-black text-white">{{ number_format($j->total_stok) }}</p>
-                    <p class="text-xs" style="color: rgba(107,114,128,0.7);">{{ $j->total_produk }} produk · Rp {{ number_format($j->avg_harga, 0, ',', '.') }}/lbr</p>
+                    <p class="text-lg font-black text-white">{{ number_format($j->total_stok, 0, ',', '.') }}</p>
+                    <p class="text-xs" style="color: rgba(107,114,128,0.7);">{{ $j->total_produk }} produk · Rp {{ number_format($j->avg_harga, 0, ',', '.') }}/pcs</p>
                 </div>
                 @endforeach
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <style>
     .stat-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }

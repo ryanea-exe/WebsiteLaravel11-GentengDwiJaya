@@ -124,12 +124,12 @@
                         </span>
                     </td>
                     <td class="px-3 py-3">
-                        <span class="font-semibold text-white">Rp {{ number_format($d->harga) }}</span>
+                        <span class="font-semibold text-white">Rp {{ number_format($d->harga, 0, ',', '.') }}</span>
                     </td>
                     <td class="px-3 py-3">
                         @php $stokClass = $d->stok <= 50 ? 'color:#fca5a5' : 'color:#4ade80'; @endphp
                         <span class="font-semibold" style="{{ $stokClass }}">
-                            {{ number_format($d->stok) }}
+                            {{ number_format($d->stok, 0, ',', '.') }}
                         </span>
                         <span class="text-xs ml-1" style="color:rgba(107,114,128,0.6);">pcs</span>
                     </td>
