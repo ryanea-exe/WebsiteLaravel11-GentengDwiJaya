@@ -12,7 +12,7 @@ class UserController extends Controller
     // Tampilkan halaman user
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy('nama', 'asc')->get();
         return view('admin.user.index', compact('users'));
     }
 

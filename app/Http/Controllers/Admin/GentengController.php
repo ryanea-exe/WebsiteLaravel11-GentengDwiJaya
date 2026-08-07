@@ -10,7 +10,7 @@ class GentengController extends Controller
 {
     public function index()
     {
-        $data = Genteng::all();
+        $data = Genteng::orderBy('nama', 'asc')->get();
         return view('admin.genteng.index', compact('data'));
     }
 

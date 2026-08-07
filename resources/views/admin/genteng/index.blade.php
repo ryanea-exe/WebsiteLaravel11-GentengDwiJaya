@@ -110,12 +110,11 @@
                     <td class="px-3 py-3">
                         @php
                             $jenisStyle = [
-                                'Tanah Liat' => 'background:rgba(225,29,72,0.15);color:#f87171;border:1px solid rgba(225,29,72,0.25)',
-                                'Keramik'    => 'background:rgba(249,115,22,0.15);color:#fb923c;border:1px solid rgba(249,115,22,0.25)',
-                                'Beton'      => 'background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.25)',
-                                'Metal'      => 'background:rgba(20,184,166,0.15);color:#2dd4bf;border:1px solid rgba(20,184,166,0.25)',
-                                'Fiber'      => 'background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.25)',
                                 'Reng'       => 'background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.25)',
+                                'Reng Cat'   => 'background:rgba(249,115,22,0.15);color:#fb923c;border:1px solid rgba(249,115,22,0.25)',
+                                'Wuwung'     => 'background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.25)',
+                                'Wuwung Cat' => 'background:rgba(225,29,72,0.15);color:#f87171;border:1px solid rgba(225,29,72,0.25)',
+                                'Variasi'    => 'background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.25)',
                             ];
                             $style = $jenisStyle[$d->jenis] ?? 'background:rgba(255,255,255,0.08);color:#9ca3af;border:1px solid rgba(255,255,255,0.12)';
                         @endphp
@@ -217,12 +216,11 @@
                     <label class="form-label">Jenis Genteng</label>
                     <select name="jenis" class="form-input">
                         <option value="">— Pilih Jenis —</option>
-                        <option value="Tanah Liat">Tanah Liat</option>
-                        <option value="Keramik">Keramik</option>
-                        <option value="Beton">Beton</option>
-                        <option value="Metal">Metal</option>
-                        <option value="Fiber">Fiber</option>
                         <option value="Reng">Reng</option>
+                        <option value="Reng Cat">Reng Cat</option>
+                        <option value="Wuwung">Wuwung</option>
+                        <option value="Wuwung Cat">Wuwung Cat</option>
+                        <option value="Variasi">Variasi</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -319,12 +317,11 @@
                     <label class="form-label">Jenis Genteng</label>
                     <select name="jenis" id="editJenis" class="form-input">
                         <option value="">— Pilih Jenis —</option>
-                        <option value="Tanah Liat">Tanah Liat</option>
-                        <option value="Keramik">Keramik</option>
-                        <option value="Beton">Beton</option>
-                        <option value="Metal">Metal</option>
-                        <option value="Fiber">Fiber</option>
                         <option value="Reng">Reng</option>
+                        <option value="Reng Cat">Reng Cat</option>
+                        <option value="Wuwung">Wuwung</option>
+                        <option value="Wuwung Cat">Wuwung Cat</option>
+                        <option value="Variasi">Variasi</option>
                     </select>
                 </div>
                 <div class="form-group">

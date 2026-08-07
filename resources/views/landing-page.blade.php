@@ -248,12 +248,17 @@
             <p class="text-gray-500 max-w-xs text-sm md:text-right">Berikut adalah 4 produk genteng unggulan dan favorit pilihan pelanggan kami.</p>
         </div>
         <div class="text-center mb-8 text-xs text-red-400/80 italic reveal">
-            *jika stok habis/kurang bisa ditanyakan atau pesan terlebih dahulu.
+            *jika stok habis/kurang bisa ditanyakan atau pesan terlebih dahulu. <br>*harga yang tertera belum termasuk ongkir.
         </div>
         <div class="grid md:grid-cols-4 gap-8">
             @forelse($genteng as $index => $item)
             <div class="glass rounded-3xl overflow-hidden card-hover reveal flex flex-col h-full" style="transition-delay:{{ 0.05 * ($index % 9) }}s">
-                <div class="product-img-wrap h-52 shrink-0">
+                <div class="product-img-wrap h-52 shrink-0 relative">
+                    @if($item->is_unggulan)
+                    <div class="absolute top-3 right-3 bg-yellow-500/90 text-white w-8 h-8 flex items-center justify-center rounded-full shadow-[0_0_15px_rgba(234,179,8,0.6)] backdrop-blur-md z-10" title="Produk Unggulan">
+                        <span class="text-lg leading-none mb-0.5">★</span>
+                    </div>
+                    @endif
                     @php
                         $words = explode(' ', trim($item->nama));
                         $inisial = count($words) >= 2
@@ -543,6 +548,9 @@
                 <!-- Left: Photo -->
                 <div class="w-full md:w-1/2">
                     <div class="w-full aspect-square rounded-xl overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center relative">
+                        <div id="publicDetailUnggulanBadge" class="absolute top-4 right-4 bg-yellow-500/90 text-white w-10 h-10 flex items-center justify-center rounded-full shadow-[0_0_15px_rgba(234,179,8,0.6)] backdrop-blur-md z-10 hidden" title="Produk Unggulan">
+                            <span class="text-xl leading-none mb-0.5">★</span>
+                        </div>
                         <img id="publicDetailFoto" src="" alt="" class="w-full h-full object-cover hidden">
                         <div id="publicDetailFotoNone" class="w-full h-full flex items-center justify-center text-8xl font-bold text-white tracking-widest hidden" style="background: linear-gradient(135deg,rgba(225,29,72,0.6),rgba(159,18,57,0.9));"></div>
                     </div>
@@ -613,6 +621,13 @@
         
         const photoImg = document.getElementById('publicDetailFoto');
         const photoNone = document.getElementById('publicDetailFotoNone');
+        const unggulanBadge = document.getElementById('publicDetailUnggulanBadge');
+        
+        if (data.is_unggulan) {
+            unggulanBadge.classList.remove('hidden');
+        } else {
+            unggulanBadge.classList.add('hidden');
+        }
         
         if (data.foto) {
             photoImg.src = '/uploads/genteng/' + data.foto;
