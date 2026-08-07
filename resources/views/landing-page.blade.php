@@ -247,10 +247,13 @@
             </div>
             <p class="text-gray-500 max-w-xs text-sm md:text-right">Berikut adalah 4 produk genteng unggulan dan favorit pilihan pelanggan kami.</p>
         </div>
+        <div class="text-center mb-8 text-xs text-red-400/80 italic reveal">
+            *jika stok habis/kurang bisa ditanyakan atau pesan terlebih dahulu.
+        </div>
         <div class="grid md:grid-cols-4 gap-8">
             @forelse($genteng as $index => $item)
-            <div class="glass rounded-3xl overflow-hidden card-hover reveal" style="transition-delay:{{ 0.1 * ($index + 1) }}s">
-                <div class="product-img-wrap h-52">
+            <div class="glass rounded-3xl overflow-hidden card-hover reveal flex flex-col h-full" style="transition-delay:{{ 0.05 * ($index % 9) }}s">
+                <div class="product-img-wrap h-52 shrink-0">
                     @php
                         $words = explode(' ', trim($item->nama));
                         $inisial = count($words) >= 2
@@ -266,7 +269,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="p-6">
+                <div class="p-6 flex flex-col flex-1">
                     <div class="flex items-start justify-between mb-3">
                         <div>
                             <h3 class="font-bold text-lg text-white">{{ $item->nama }}</h3>
@@ -276,20 +279,23 @@
                             Rp {{ number_format($item->harga, 0, ',', '.') }}
                         </span>
                     </div>
-                    <div class="mb-4">
-                        <p class="text-gray-400 text-xs line-clamp-2 min-h-[32px]">{{ $item->deskripsi ?? 'Tidak ada deskripsi' }}</p>
+                    <div class="flex flex-col gap-3 mt-auto pt-4">
+                        <button type="button" onclick='openPublicDetailModal(@json($item))' class="w-full flex items-center justify-between text-red-400 text-sm font-semibold group">
+                            <span>Detail Produk</span>
+                            <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                        <a href="https://wa.me/6285235430936?text={{ urlencode("Halo Admin Genteng Dwijaya,\nSaya ingin melakukan pemesanan Genteng.\n\n*Detail Pesanan:*\n- Produk: " . $item->nama . "\n- Harga: Rp " . number_format($item->harga, 0, ',', '.') . "\n- Jumlah Pesanan: ...\n\n*Data Pemesan:*\n- Nama Lengkap: ...\n- Alamat Pengiriman: ...\n\n(Alamat pengiriman bisa disertakan share lokasi.)\nMohon info total biaya dan ketersediaan stok. Terima kasih.") }}" target="_blank" class="w-full flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#1ebe57] text-white text-xs font-bold px-3 py-2.5 rounded-xl transition-all hover:scale-[1.02] shadow-[0_0_10px_rgba(37,211,102,0.2)]">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                            Pesan Sekarang
+                        </a>
                     </div>
-                    <button type="button" onclick='openPublicDetailModal(@json($item))' class="w-full flex items-center justify-between text-red-400 text-sm font-semibold group mt-4">
-                        <span>Detail Produk</span>
-                        <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </button>
                 </div>
             </div>
             @empty
-            <div class="col-span-3 text-center py-10">
-                <p class="text-gray-500">Belum ada data produk genteng unggulan/favorit.</p>
+            <div class="col-span-full text-center py-20">
+                <p class="text-gray-500">Belum ada data genteng yang tersedia di katalog ini.</p>
             </div>
             @endforelse
         </div>
@@ -343,7 +349,7 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center text-white font-bold text-sm">S</div>
-                        <div><p class="font-semibold text-sm text-white">Siti Rahayu</p><p class="text-gray-500 text-xs">Pemilik Rumah, Jakarta</p></div>
+                        <div><p class="font-semibold text-sm text-white">Siti Rahayu</p><p class="text-gray-500 text-xs">Pemilik Rumah, Madiun</p></div>
                     </div>
                     <span class="text-yellow-500 text-xs">★★★★★</span>
                 </div>
@@ -410,7 +416,7 @@
         <h2 class="text-4xl lg:text-5xl font-black mt-4 mb-6">Butuh Genteng <span class="text-gradient">Berkualitas?</span></h2>
         <p class="text-gray-500 max-w-lg mx-auto mb-10 text-sm">Konsultasikan kebutuhan Anda dengan tim ahli kami secara gratis. Dapatkan penawaran terbaik hari ini!</p>
         <div class="flex flex-wrap gap-4 justify-center">
-            <a href="https://wa.me/6281234567890" class="btn-glow inline-flex items-center gap-2 text-white font-semibold px-8 py-4 rounded-2xl text-sm">
+            <a href="https://wa.me/6285235430936?text={{ urlencode('Halo, saya tertarik dengan produk genteng Dwijaya. Bisakah saya mendapatkan penawaran harga?') }}" target="_blank" class="btn-glow inline-flex items-center gap-2 text-white font-semibold px-8 py-4 rounded-2xl text-sm">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 Hubungi via WhatsApp
             </a>
@@ -630,8 +636,20 @@
             photoNone.classList.remove('hidden');
         }
 
-        const textMessage = encodeURIComponent('Halo, saya tertarik dengan produk genteng: ' + data.nama + '. Apakah stoknya masih ada?');
-        document.getElementById('publicDetailWaLink').href = 'https://wa.me/6281234567890?text=' + textMessage;
+        const hargaFormatted = data.harga ? new Intl.NumberFormat('id-ID').format(data.harga) : '0';
+        const textMessage = encodeURIComponent(
+            "Halo Admin Genteng Dwijaya,\n" +
+            "Saya ingin melakukan pemesanan.\n\n" +
+            "*Detail Pesanan:*\n" +
+            "- Produk: " + data.nama + "\n" +
+            "- Harga: Rp " + hargaFormatted + "\n" +
+            "- Jumlah Pesanan: ...\n\n" +
+            "*Data Pemesan:*\n" +
+            "- Nama Lengkap: ...\n" +
+            "- Alamat Pengiriman: ...\n\n" +
+            "Mohon info total biaya dan ketersediaan stok. Terima kasih."
+        );
+        document.getElementById('publicDetailWaLink').href = 'https://wa.me/6285235430936?text=' + textMessage;
 
         const modal = document.getElementById('publicDetailModal');
         const box = document.getElementById('publicDetailModalBox');
